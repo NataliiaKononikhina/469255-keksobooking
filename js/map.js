@@ -1,7 +1,5 @@
 'use strict';
 
-var map = document.querySelector('.map');
-
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -42,10 +40,6 @@ var getFeatures = function () {
   return features;
 };
 
-var buildAddress = function (x, y) {
-  return x + ', ' + y;
-};
-
 var getArr = function () {
   var arr = [];
 
@@ -59,7 +53,7 @@ var getArr = function () {
       },
       offer: {
         title: getRandomTitle(i),
-        address: buildAddress(xCoordinate, yCoordinate),
+        address: xCoordinate + ', ' + yCoordinate,
         price: getRandomNumber(1000, 1000000),
         type: getRandomType(),
         rooms: getRandomNumber(1, 5),
@@ -84,16 +78,17 @@ var getArr = function () {
   return arr;
 };
 
-var removeClass = function (node, classElement) {
-  node.classList.remove(classElement);
+var removeClass = function (selector, className) {
+  var node = document.querySelector(selector);
+
+  node.classList.remove(className);
 };
 
-removeClass(map, 'map--faded');
-
-var template = document.querySelector('template');
+removeClass('.map', 'map--faded');
 
 var getMapPins = function () {
   var arr = getArr();
+  var template = document.querySelector('template');
   var similarMapPin = template.content.querySelector('.map__pin');
   var mapPinsFragment = document.createDocumentFragment();
 
@@ -111,7 +106,7 @@ var getMapPins = function () {
 };
 
 var buildPinsFragment = function () {
-  var mapPins = map.querySelector('.map__pins');
+  var mapPins = document.querySelector('.map__pins');
 
   mapPins.appendChild(getMapPins());
 };
