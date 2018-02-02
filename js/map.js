@@ -6,8 +6,8 @@ var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-var getRandomAvatar = function (avatarNumber) {
-  return 'img/avatars/user0' + avatarNumber + '.png';
+var getAvatar = function (avatarNumber) {
+  return 'img/avatars/user0' + (avatarNumber + 1) + '.png';
 };
 
 var getRandomTitle = function (index) {
@@ -42,17 +42,24 @@ var getFeatures = function () {
   return features;
 };
 
+var buildAddress = function (x, y) {
+  return x + ', ' + y;
+};
+
 var getArr = function () {
   var arr = [];
 
   for (var i = 0; i < 8; i++) {
+    var xCoordinate = getRandomNumber(300, 900);
+    var yCoordinate = getRandomNumber(150, 500);
+
     arr.push({
       author: {
-        avatar: getRandomAvatar(i)
+        avatar: getAvatar(i)
       },
       offer: {
         title: getRandomTitle(i),
-        address: this.location.x + ', ' + this.location.y,
+        address: buildAddress(xCoordinate, yCoordinate),
         price: getRandomNumber(1000, 1000000),
         type: getRandomType(),
         rooms: getRandomNumber(1, 5),
@@ -68,11 +75,45 @@ var getArr = function () {
         ]
       },
       location: {
-        x: getRandomNumber(300, 900),
-        y: getRandomNumber(150, 500)
+        x: xCoordinate,
+        y: yCoordinate
       }
     });
   }
+
+  return arr;
 };
 
-map.classList.remove('map--faded');
+var removeClass = function (node, classElement) {
+  node.classList.remove(classElement);
+};
+
+removeClass(map, 'map--faded');
+
+var template = document.querySelector('template');
+
+var getMapPins = function () {
+  var arr = getArr();
+  var similarMapPin = template.content.querySelector('.map__pin');
+  var mapPinsFragment = document.createDocumentFragment();
+
+  for (var i = 0; i < 8; i++) {
+    var mapPin = similarMapPin.cloneNode(true);
+
+    mapPin.style.left = arr[i].location.x + 'px';
+    mapPin.style.top = arr[i].location.y + 'px';
+    mapPin.querySelector('img').src = arr[i].author.avatar;
+
+    mapPinsFragment.appendChild(mapPin);
+  }
+
+  return mapPinsFragment;
+};
+
+var buildPinsFragment = function () {
+  var mapPins = map.querySelector('.map__pins');
+
+  mapPins.appendChild(getMapPins());
+};
+
+buildPinsFragment();
