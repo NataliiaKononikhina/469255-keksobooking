@@ -144,6 +144,22 @@ var mapFeaturesToDom = function (featuresArr) {
   return fragment;
 };
 
+var picturesToDom = function (picturesArr) {
+  var template = document.querySelector('template');
+  var ulPicture = template.content.querySelector('.popup__pictures');
+  var fragment = document.createDocumentFragment();
+
+  for (var i = 0; i < picturesArr.length; i++) {
+    var liPicture = ulPicture.querySelector('li').cloneNode(true);
+    liPicture.querySelector('img').src = picturesArr[i];
+    liPicture.querySelector('img').width = 70;
+
+    fragment.appendChild(liPicture);
+  }
+
+  return fragment;
+};
+
 var getMapCard = function () {
   var arr = getArr();
   var map = document.querySelector('.map');
@@ -162,7 +178,9 @@ var getMapCard = function () {
   mapCard.querySelector('.popup__features').innerHTML = '';
   mapCard.querySelector('.popup__features').appendChild(mapFeaturesToDom(arr[0].offer.features));
   allP[4].textContent = arr[0].offer.description;
-  mapCard.querySelector('.popup_avatar').src = arr[0].author.avatar;
+  mapCard.querySelector('.popup__pictures').innerHTML = '';
+  mapCard.querySelector('.popup__pictures').appendChild(picturesToDom(arr[0].offer.photos));
+  mapCard.querySelector('.popup__avatar').src = arr[0].author.avatar;
 
   map.insertBefore(mapCard, filtersContainer);
 };
