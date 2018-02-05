@@ -32,9 +32,13 @@ var getRandomType = function () {
 var getFeatures = function () {
   var featuresList = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var features = [];
+  var featuresAmount = getRandomNumber(0, 6);
 
-  for (var i = 0; i > getRandomNumber(0, 6); i++) {
-    features.push(featuresList[getRandomNumber(0, 5)]);
+  for (var i = 0; i < featuresAmount; i++) {
+    var randomIndex = getRandomNumber(0, featuresList.length - 1);
+
+    features.push(featuresList[randomIndex]);
+    featuresList.splice(randomIndex, 1);
   }
 
   return features;
@@ -112,3 +116,55 @@ var buildPinsFragment = function () {
 };
 
 buildPinsFragment();
+
+var getApartmentType = function (type) {
+  var apartmentType = {
+    flat: 'Квартира',
+    bungalo: 'Бунгало',
+    house: 'Дом'
+  };
+
+  return apartmentType[type];
+};
+
+var mapFeaturesToDom = function (featuresArr) {
+  var fragment = document.createDocumentFragment();
+  var liFeatures = document.createElement('li');
+
+  liFeatures.classList.add('feature');
+
+  featuresArr.forEach(function (featureName) {
+    var li = liFeatures.cloneNode(true);
+
+    li.classList.add('feature--' + featureName);
+
+    fragment.appendChild(li);
+  });
+
+  return fragment;
+};
+
+var getMapCard = function () {
+  var arr = getArr();
+  var map = document.querySelector('.map');
+  var filtersContainer = document.querySelector('.map__filters-container');
+  var template = document.querySelector('template');
+  var similarMapCard = template.content.querySelector('.map__card');
+  var mapCard = similarMapCard.cloneNode(true);
+  var allP = mapCard.querySelectorAll('p');
+
+  mapCard.querySelector('h3').textContent = arr[0].offer.title;
+  mapCard.querySelector('small').textContent = arr[0].offer.address;
+  mapCard.querySelector('.popup__price').textContent = arr[0].offer.price + ' \u20BD' + '/ночь';
+  mapCard.querySelector('h4').textContent = getApartmentType(arr[0].offer.type);
+  allP[2].textContent = arr[0].offer.rooms + ' комнаты для ' + arr[0].offer.guests + ' гостей';
+  allP[3].textContent = 'Заезд после ' + arr[0].offer.checkin + ', выезд до ' + arr[0].offer.checkout;
+  mapCard.querySelector('.popup__features').innerHTML = '';
+  mapCard.querySelector('.popup__features').appendChild(mapFeaturesToDom(arr[0].offer.features));
+  allP[4].textContent = arr[0].offer.description;
+  mapCard.querySelector('.popup_avatar').src = arr[0].author.avatar;
+
+  map.insertBefore(mapCard, filtersContainer);
+};
+
+getMapCard();
