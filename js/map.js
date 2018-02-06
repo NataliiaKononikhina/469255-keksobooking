@@ -39,9 +39,9 @@ var getAvatar = function (avatarNumber) {
 
 // Рандомный выбор жилья
 var getRandomType = function () {
-  var types = ['flat', 'house', 'bungalo'];
+  var types = Object.keys(APARTMENT_TYPE);
 
-  return types[getRandomNumber(0, 2)];
+  return types[getRandomNumber(0, types.length - 1)];
 };
 
 // Получение рандомного количества удобств без повторений
