@@ -1,49 +1,65 @@
 'use strict';
 
+// Тип жилья:
+var APARTMENT_TYPE = {
+  flat: 'Квартира',
+  bungalo: 'Бунгало',
+  house: 'Дом'
+};
+// Заголовок объявления:
+var TITLES = [
+  'Большая уютная квартира',
+  'Маленькая неуютная квартира',
+  'Огромный прекрасный дворец',
+  'Маленький ужасный дворец',
+  'Красивый гостевой домик',
+  'Некрасивый негостеприимный домик',
+  'Уютное бунгало далеко от моря',
+  'Неуютное бунгало по колено в воде'
+];
+// Удобства:
+var FEATURES_LIST = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner'
+];
+
+// Метод нахождения рандомного числа от min до max
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+// Выбор аватара
 var getAvatar = function (avatarNumber) {
   return 'img/avatars/user0' + (avatarNumber + 1) + '.png';
 };
 
-var getRandomTitle = function (index) {
-  var titles = [
-    'Большая уютная квартира',
-    'Маленькая неуютная квартира',
-    'Огромный прекрасный дворец',
-    'Маленький ужасный дворец',
-    'Красивый гостевой домик',
-    'Некрасивый негостеприимный домик',
-    'Уютное бунгало далеко от моря',
-    'Неуютное бунгало по колено в воде'
-  ];
-
-  return titles[index];
-};
-
+// Рандомный выбор жилья
 var getRandomType = function () {
   var types = ['flat', 'house', 'bungalo'];
 
   return types[getRandomNumber(0, 2)];
 };
 
-var getFeatures = function () {
-  var featuresList = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+// Получение рандомного количества удобств без повторений
+var getFeatures = function (featuresList) {
   var features = [];
-  var featuresAmount = getRandomNumber(0, 6);
+  var featuresListCopy = featuresList.slice();
 
-  for (var i = 0; i < featuresAmount; i++) {
-    var randomIndex = getRandomNumber(0, featuresList.length - 1);
+  for (var i = 0; i < getRandomNumber(0, 6); i++) {
+    var randomIndex = getRandomNumber(0, featuresListCopy.length - 1);
 
-    features.push(featuresList[randomIndex]);
-    featuresList.splice(randomIndex, 1);
+    features.push(featuresListCopy[randomIndex]);
+    featuresListCopy.splice(randomIndex, 1);
   }
 
   return features;
 };
 
+// Создание массива из 8 объявлений о жилье
 var getArr = function () {
   var arr = [];
 
@@ -56,7 +72,7 @@ var getArr = function () {
         avatar: getAvatar(i)
       },
       offer: {
-        title: getRandomTitle(i),
+        title: TITLES[i],
         address: xCoordinate + ', ' + yCoordinate,
         price: getRandomNumber(1000, 1000000),
         type: getRandomType(),
@@ -64,7 +80,7 @@ var getArr = function () {
         guests: getRandomNumber(1, 40),
         checkin: getRandomNumber(12, 14) + ':00',
         checkout: getRandomNumber(12, 14) + ':00',
-        features: getFeatures(),
+        features: getFeatures(FEATURES_LIST),
         description: '',
         photos: [
           'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
@@ -82,6 +98,7 @@ var getArr = function () {
   return arr;
 };
 
+// Удаление класса у любого узла
 var removeClass = function (selector, className) {
   var node = document.querySelector(selector);
 
@@ -90,6 +107,7 @@ var removeClass = function (selector, className) {
 
 removeClass('.map', 'map--faded');
 
+// Создание фрагмента с метоками квартир для карты города
 var getMapPins = function () {
   var arr = getArr();
   var template = document.querySelector('template');
@@ -109,6 +127,7 @@ var getMapPins = function () {
   return mapPinsFragment;
 };
 
+// Добавление меток на карту города
 var buildPinsFragment = function () {
   var mapPins = document.querySelector('.map__pins');
 
@@ -117,16 +136,7 @@ var buildPinsFragment = function () {
 
 buildPinsFragment();
 
-var getApartmentType = function (type) {
-  var apartmentType = {
-    flat: 'Квартира',
-    bungalo: 'Бунгало',
-    house: 'Дом'
-  };
-
-  return apartmentType[type];
-};
-
+// Создание фрагмента с удобствами для отображения в карточке
 var mapFeaturesToDom = function (featuresArr) {
   var fragment = document.createDocumentFragment();
   var liFeatures = document.createElement('li');
@@ -144,6 +154,7 @@ var mapFeaturesToDom = function (featuresArr) {
   return fragment;
 };
 
+// Создание фрагмента с фотографиями для отображения в карточке
 var picturesToDom = function (picturesArr) {
   var template = document.querySelector('template');
   var ulPicture = template.content.querySelector('.popup__pictures');
@@ -160,6 +171,7 @@ var picturesToDom = function (picturesArr) {
   return fragment;
 };
 
+// Создание карточки, которая описывает жилье на основе темплейта
 var getMapCard = function () {
   var arr = getArr();
   var map = document.querySelector('.map');
@@ -172,7 +184,7 @@ var getMapCard = function () {
   mapCard.querySelector('h3').textContent = arr[0].offer.title;
   mapCard.querySelector('small').textContent = arr[0].offer.address;
   mapCard.querySelector('.popup__price').textContent = arr[0].offer.price + ' \u20BD' + '/ночь';
-  mapCard.querySelector('h4').textContent = getApartmentType(arr[0].offer.type);
+  mapCard.querySelector('h4').textContent = APARTMENT_TYPE[arr[0].offer.type];
   allP[2].textContent = arr[0].offer.rooms + ' комнаты для ' + arr[0].offer.guests + ' гостей';
   allP[3].textContent = 'Заезд после ' + arr[0].offer.checkin + ', выезд до ' + arr[0].offer.checkout;
   mapCard.querySelector('.popup__features').innerHTML = '';
