@@ -30,9 +30,11 @@ var FEATURES_LIST = [
 var ESC_CLICK = 27;
 
 var map = document.querySelector('.map');
+var numberOfAds = 8;
 var fieldset = document.querySelectorAll('fieldset');
 var mapPinMain = map.querySelector('.map__pin--main');
 var popupClose;
+var address = document.querySelector('#address');
 
 // Метод нахождения рандомного числа от min до max
 var getRandomNumber = function (min, max) {
@@ -70,7 +72,7 @@ var getFeatures = function (featuresList) {
 var getArr = function () {
   var arr = [];
 
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < numberOfAds; i++) {
     var xCoordinate = getRandomNumber(300, 900);
     var yCoordinate = getRandomNumber(150, 500);
 
@@ -119,7 +121,7 @@ var getMapPins = function () {
   var similarMapPin = template.content.querySelector('.map__pin');
   var mapPinsFragment = document.createDocumentFragment();
 
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < numberOfAds; i++) {
     var mapPin = similarMapPin.cloneNode(true);
 
     mapPin.style.left = arr[i].location.x + 'px';
@@ -232,6 +234,16 @@ var deactivateFieldset = function () {
   });
 };
 
+// Нахождение адреса метки
+var getAddress = function (element) {
+  return element.offsetLeft + ', ' + element.offsetTop;
+};
+
+// Добавление адреса в поле "Адрес"
+var setAddress = function () {
+  address.value = getAddress(mapPinMain);
+};
+
 // Метод активации страницы
 var activate = function () {
   removeClass('.map', 'map--faded');
@@ -241,6 +253,7 @@ var activate = function () {
   });
   buildPinsFragment();
   addMapPinsEventListeners();
+  setAddress();
   mapPinMain.removeEventListener('mouseup', activate);
 };
 
@@ -271,6 +284,7 @@ var closeMapCard = function () {
 };
 
 deactivateFieldset();
+setAddress();
 getMapCards();
 
 popupClose = map.querySelectorAll('.popup__close');
