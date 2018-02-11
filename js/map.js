@@ -28,9 +28,10 @@ var FEATURES_LIST = [
 ];
 
 var ESC_CLICK = 27;
+var NUMBER_OF_ADS = 8;
 
 var map = document.querySelector('.map');
-var numberOfAds = 8;
+var template = document.querySelector('template');
 var fieldset = document.querySelectorAll('fieldset');
 var mapPinMain = map.querySelector('.map__pin--main');
 var popupClose;
@@ -72,7 +73,7 @@ var getFeatures = function (featuresList) {
 var getArr = function () {
   var arr = [];
 
-  for (var i = 0; i < numberOfAds; i++) {
+  for (var i = 0; i < NUMBER_OF_ADS; i++) {
     var xCoordinate = getRandomNumber(300, 900);
     var yCoordinate = getRandomNumber(150, 500);
 
@@ -117,11 +118,10 @@ var removeClass = function (selector, className) {
 // Создание фрагмента с метоками квартир для карты города
 var getMapPins = function () {
   var arr = getArr();
-  var template = document.querySelector('template');
   var similarMapPin = template.content.querySelector('.map__pin');
   var mapPinsFragment = document.createDocumentFragment();
 
-  for (var i = 0; i < numberOfAds; i++) {
+  for (var i = 0; i < NUMBER_OF_ADS; i++) {
     var mapPin = similarMapPin.cloneNode(true);
 
     mapPin.style.left = arr[i].location.x + 'px';
@@ -161,7 +161,6 @@ var mapFeaturesToDom = function (featuresArr) {
 
 // Создание фрагмента с фотографиями для отображения в карточке
 var picturesToDom = function (picturesArr) {
-  var template = document.querySelector('template');
   var ulPicture = template.content.querySelector('.popup__pictures');
   var fragment = document.createDocumentFragment();
 
@@ -178,7 +177,6 @@ var picturesToDom = function (picturesArr) {
 
 // Создание карточку, которая описывает жилье на основе темплейта
 var getMapCard = function (advert) {
-  var template = document.querySelector('template');
   var similarMapCard = template.content.querySelector('.map__card');
   var mapCard = similarMapCard.cloneNode(true);
   var allP = mapCard.querySelectorAll('p');
@@ -234,18 +232,13 @@ var deactivateFieldset = function () {
   });
 };
 
-// Нахождение адреса метки
-var getAddress = function (element) {
-  return element.offsetLeft + ', ' + element.offsetTop;
-};
-
 // Добавление адреса в поле "Адрес"
-var setAddress = function () {
-  address.value = getAddress(mapPinMain);
+var setAddress = function (element) {
+  address.value = element.offsetLeft + ', ' + element.offsetTop;
 };
 
 // Метод активации страницы
-var activate = function () {
+var activate = function (evt) {
   removeClass('.map', 'map--faded');
   removeClass('.notice__form', 'notice__form--disabled');
   fieldset.forEach(function (element) {
@@ -253,7 +246,7 @@ var activate = function () {
   });
   buildPinsFragment();
   addMapPinsEventListeners();
-  setAddress();
+  setAddress(evt.currentTarget);
   mapPinMain.removeEventListener('mouseup', activate);
 };
 
@@ -284,7 +277,7 @@ var closeMapCard = function () {
 };
 
 deactivateFieldset();
-setAddress();
+setAddress(mapPinMain);
 getMapCards();
 
 popupClose = map.querySelectorAll('.popup__close');
