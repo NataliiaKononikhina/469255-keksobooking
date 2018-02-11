@@ -119,19 +119,17 @@ var removeClass = function (selector, className) {
 var getMapPins = function () {
   var arr = getArr();
   var similarMapPin = template.content.querySelector('.map__pin');
-  var mapPinsFragment = document.createDocumentFragment();
 
-  for (var i = 0; i < NUMBER_OF_ADS; i++) {
+  return arr.reduce(function (fragment, advert) {
     var mapPin = similarMapPin.cloneNode(true);
 
-    mapPin.style.left = arr[i].location.x + 'px';
-    mapPin.style.top = arr[i].location.y + 'px';
-    mapPin.querySelector('img').src = arr[i].author.avatar;
+    mapPin.style.left = advert.location.x + 'px';
+    mapPin.style.top = advert.location.y + 'px';
+    mapPin.querySelector('img').src = advert.author.avatar;
+    fragment.appendChild(mapPin);
 
-    mapPinsFragment.appendChild(mapPin);
-  }
-
-  return mapPinsFragment;
+    return fragment;
+  }, document.createDocumentFragment());
 };
 
 // Добавление меток на карту города
@@ -143,36 +141,34 @@ var buildPinsFragment = function () {
 
 // Создание фрагмента с удобствами для отображения в карточке
 var mapFeaturesToDom = function (featuresArr) {
-  var fragment = document.createDocumentFragment();
   var liFeatures = document.createElement('li');
 
   liFeatures.classList.add('feature');
 
-  featuresArr.forEach(function (featureName) {
+  return featuresArr.reduce(function (fragment, featureName) {
     var li = liFeatures.cloneNode(true);
 
     li.classList.add('feature--' + featureName);
 
     fragment.appendChild(li);
-  });
 
-  return fragment;
+    return fragment;
+  }, document.createDocumentFragment());
 };
 
 // Создание фрагмента с фотографиями для отображения в карточке
 var picturesToDom = function (picturesArr) {
   var ulPicture = template.content.querySelector('.popup__pictures');
-  var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < picturesArr.length; i++) {
+  return picturesArr.reduce(function (fragment, picture) {
     var liPicture = ulPicture.querySelector('li').cloneNode(true);
-    liPicture.querySelector('img').src = picturesArr[i];
+    liPicture.querySelector('img').src = picture;
     liPicture.querySelector('img').width = 70;
 
     fragment.appendChild(liPicture);
-  }
 
-  return fragment;
+    return fragment;
+  }, document.createDocumentFragment());
 };
 
 // Создание карточку, которая описывает жилье на основе темплейта
@@ -201,14 +197,14 @@ var getMapCard = function (advert) {
 // Создание все карточки, которые описывают жилье на основе темплейта
 var getMapCards = function () {
   var adverts = getArr();
-  var fragment = document.createDocumentFragment();
   var filtersContainer = map.querySelector('.map__filters-container');
 
-  for (var i = 0; i < adverts.length; i++) {
-    fragment.appendChild(getMapCard(adverts[i]));
-  }
+  var allAdverts = adverts.reduce(function (fragment, advert) {
+    fragment.appendChild(getMapCard(advert));
+    return fragment;
+  }, document.createDocumentFragment());
 
-  map.insertBefore(fragment, filtersContainer);
+  map.insertBefore(allAdverts, filtersContainer);
 };
 
 // Метод нахождения нужной карточки
@@ -260,12 +256,13 @@ var onMapCardEscPress = function (evt) {
 var openMapCard = function (src) {
   var allCards = map.querySelectorAll('.map__card');
 
-  for (var i = 0; i < allCards.length; i++) {
-    allCards[i].classList.add('hidden');
-    if (allCards[i].querySelector('.popup__avatar').src === src) {
-      allCards[i].classList.remove('hidden');
+  allCards.forEach(function (card) {
+    card.classList.add('hidden');
+    if (card.querySelector('.popup__avatar').src === src) {
+      card.classList.remove('hidden');
     }
-  }
+  });
+
   document.addEventListener('keydown', onMapCardEscPress);
 };
 
