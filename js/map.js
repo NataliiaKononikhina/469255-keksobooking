@@ -42,6 +42,12 @@ var CAPACITY_ROOMS = {
   3: ['1', '2', '3'],
   100: ['0']
 };
+var ROOM_NUMBER = {
+  1: ['1', '2', '3'],
+  2: ['2', '3'],
+  3: ['3'],
+  0: ['100']
+};
 
 var map = document.querySelector('.map');
 var template = document.querySelector('template');
@@ -323,6 +329,18 @@ appartmentRoomNumber.addEventListener('change', function (evt) {
 
   options.forEach(function (option) {
     if (CAPACITY_ROOMS[evt.currentTarget.value].includes(option.value)) {
+      option.disabled = false;
+    } else {
+      option.disabled = true;
+    }
+  });
+});
+
+appartmentCapacity.addEventListener('change', function (evt) {
+  var options = appartmentRoomNumber.querySelectorAll('option');
+
+  options.forEach(function (option) {
+    if (ROOM_NUMBER[evt.currentTarget.value].includes(option.value)) {
       option.disabled = false;
     } else {
       option.disabled = true;
