@@ -36,10 +36,12 @@ var MIN_PRICE = {
   house: 5000,
   palace: 10000
 };
-var ROOM_NUMBER_1 = '1';
-var ROOM_NUMBER_2 = '2';
-var ROOM_NUMBER_3 = '3';
-var ROOM_NUMBER_100 = '100';
+var CAPACITY_ROOMS = {
+  1: ['1'],
+  2: ['1', '2'],
+  3: ['1', '2', '3'],
+  100: ['0']
+};
 
 var map = document.querySelector('.map');
 var template = document.querySelector('template');
@@ -317,22 +319,13 @@ appartmentTimeout.addEventListener('change', function (evt) {
 });
 
 appartmentRoomNumber.addEventListener('change', function (evt) {
-  var option1 = new Option('для 1 гостя', '1');
-  var option0 = new Option('не для гостей', '0');
-  var option2 = new Option('для 2 гостей', '2');
-  var option3 = new Option('для 3 гостей', '3');
+  var options = appartmentCapacity.querySelectorAll('option');
 
-  appartmentCapacity.innerHTML = '';
-  if (evt.currentTarget.value === ROOM_NUMBER_1) {
-    appartmentCapacity.add(option1);
-  } if (evt.currentTarget.value === ROOM_NUMBER_100) {
-    appartmentCapacity.add(option0);
-  } if (evt.currentTarget.value === ROOM_NUMBER_2) {
-    appartmentCapacity.add(option1);
-    appartmentCapacity.add(option2);
-  } if (evt.currentTarget.value === ROOM_NUMBER_3) {
-    appartmentCapacity.add(option1);
-    appartmentCapacity.add(option2);
-    appartmentCapacity.add(option3);
-  }
+  options.forEach(function (option) {
+    if (CAPACITY_ROOMS[evt.currentTarget.value].includes(option.value)) {
+      option.disabled = false;
+    } else {
+      option.disabled = true;
+    }
+  });
 });
