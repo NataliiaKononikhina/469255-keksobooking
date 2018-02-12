@@ -30,12 +30,27 @@ var FEATURES_LIST = [
 var ESC_CLICK = 27;
 var NUMBER_OF_ADS = 8;
 
+var MIN_FLAT_PRICE = 1000;
+var MIN_BUNGALO_PRICE = 0;
+var MIN_HOUSE_PRICE = 5000;
+var MIN_PALACE_PRICE = 10000;
+var SELECTED_INDEX_0 = 0;
+var SELECTED_INDEX_1 = 1;
+var SELECTED_INDEX_2 = 2;
+
 var map = document.querySelector('.map');
 var template = document.querySelector('template');
 var fieldset = document.querySelectorAll('fieldset');
 var mapPinMain = map.querySelector('.map__pin--main');
 var popupClose;
 var address = document.querySelector('#address');
+
+var appartmentType = document.querySelector('#type');
+var appartmentPrice = document.querySelector('#price');
+var appartmentRoomNumber = document.querySelector('#room_number');
+var appartmentCapacity = document.querySelector('#capacity');
+var appartmentTimein = document.querySelector('#timein');
+var appartmentTimeout = document.querySelector('#timeout');
 
 // Метод нахождения рандомного числа от min до max
 var getRandomNumber = function (min, max) {
@@ -285,20 +300,12 @@ popupClose.forEach(function (close) {
   close.addEventListener('click', closeMapCard);
 });
 
-// ===============
-var appartmentType = document.querySelector('#type');
-var appartmentPrice = document.querySelector('#price');
-var appartmentRoomNumber = document.querySelector('#room_number');
-var appartmentCapacity = document.querySelector('#capacity');
-var appartmentTimein = document.querySelector('#timein');
-var appartmentTimeout = document.querySelector('#timeout');
-
 appartmentType.addEventListener('change', function (evt) {
   var appartmentMinPrice = {
-    flat: 1000,
-    bungalo: 0,
-    house: 5000,
-    palace: 10000
+    flat: MIN_FLAT_PRICE,
+    bungalo: MIN_BUNGALO_PRICE,
+    house: MIN_HOUSE_PRICE,
+    palace: MIN_PALACE_PRICE
   };
 
   appartmentPrice.min = appartmentMinPrice[evt.currentTarget.value];
@@ -306,22 +313,22 @@ appartmentType.addEventListener('change', function (evt) {
 });
 
 appartmentTimein.addEventListener('change', function (evt) {
-  if (evt.currentTarget.selectedIndex === 0) {
-    appartmentTimeout.selectedIndex = 0;
-  } if (evt.currentTarget.selectedIndex === 1) {
-    appartmentTimeout.selectedIndex = 1;
-  } if (evt.currentTarget.selectedIndex === 2) {
-    appartmentTimeout.selectedIndex = 2;
+  if (evt.currentTarget.selectedIndex === SELECTED_INDEX_0) {
+    appartmentTimeout.selectedIndex = SELECTED_INDEX_0;
+  } if (evt.currentTarget.selectedIndex === SELECTED_INDEX_1) {
+    appartmentTimeout.selectedIndex = SELECTED_INDEX_1;
+  } if (evt.currentTarget.selectedIndex === SELECTED_INDEX_2) {
+    appartmentTimeout.selectedIndex = SELECTED_INDEX_2;
   }
 });
 
 appartmentTimeout.addEventListener('change', function (evt) {
-  if (evt.currentTarget.selectedIndex === 0) {
-    appartmentTimein.selectedIndex = 0;
-  } if (evt.currentTarget.selectedIndex === 1) {
-    appartmentTimein.selectedIndex = 1;
-  } if (evt.currentTarget.selectedIndex === 2) {
-    appartmentTimein.selectedIndex = 2;
+  if (evt.currentTarget.selectedIndex === SELECTED_INDEX_0) {
+    appartmentTimein.selectedIndex = SELECTED_INDEX_0;
+  } if (evt.currentTarget.selectedIndex === SELECTED_INDEX_1) {
+    appartmentTimein.selectedIndex = SELECTED_INDEX_1;
+  } if (evt.currentTarget.selectedIndex === SELECTED_INDEX_2) {
+    appartmentTimein.selectedIndex = SELECTED_INDEX_2;
   }
 });
 
