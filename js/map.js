@@ -42,12 +42,6 @@ var CAPACITY_ROOMS = {
   3: ['1', '2', '3'],
   100: ['0']
 };
-var ROOM_NUMBER = {
-  1: ['1', '2', '3'],
-  2: ['2', '3'],
-  3: ['3'],
-  0: ['100']
-};
 
 var map = document.querySelector('.map');
 var template = document.querySelector('template');
@@ -259,6 +253,19 @@ var setAddress = function (element) {
   address.value = element.offsetLeft + ', ' + element.offsetTop;
 };
 
+var disabledCapacity = function () {
+  var options = appartmentCapacity.querySelectorAll('option');
+  var selectedAppartmentRoomNumber = appartmentRoomNumber.value;
+
+  options.forEach(function (option) {
+    if (CAPACITY_ROOMS[selectedAppartmentRoomNumber].includes(option.value)) {
+      option.disabled = false;
+    } else {
+      option.disabled = true;
+    }
+  });
+};
+
 // Метод активации страницы
 var activate = function (evt) {
   removeClass('.map', 'map--faded');
@@ -270,6 +277,7 @@ var activate = function (evt) {
   addMapPinsEventListeners();
   setAddress(evt.currentTarget);
   mapPinMain.removeEventListener('mouseup', activate);
+  disabledCapacity();
 };
 
 var onMapCardEscPress = function (evt) {
@@ -329,18 +337,6 @@ appartmentRoomNumber.addEventListener('change', function (evt) {
 
   options.forEach(function (option) {
     if (CAPACITY_ROOMS[evt.currentTarget.value].includes(option.value)) {
-      option.disabled = false;
-    } else {
-      option.disabled = true;
-    }
-  });
-});
-
-appartmentCapacity.addEventListener('change', function (evt) {
-  var options = appartmentRoomNumber.querySelectorAll('option');
-
-  options.forEach(function (option) {
-    if (ROOM_NUMBER[evt.currentTarget.value].includes(option.value)) {
       option.disabled = false;
     } else {
       option.disabled = true;
