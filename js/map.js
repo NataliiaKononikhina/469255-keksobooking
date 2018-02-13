@@ -30,12 +30,32 @@ var FEATURES_LIST = [
 var ESC_CLICK = 27;
 var NUMBER_OF_ADS = 8;
 
+var MIN_PRICE = {
+  flat: 1000,
+  bungalo: 0,
+  house: 5000,
+  palace: 10000
+};
+var CAPACITY_ROOMS = {
+  1: ['1'],
+  2: ['1', '2'],
+  3: ['1', '2', '3'],
+  100: ['0']
+};
+
 var map = document.querySelector('.map');
 var template = document.querySelector('template');
 var fieldset = document.querySelectorAll('fieldset');
 var mapPinMain = map.querySelector('.map__pin--main');
 var popupClose;
 var address = document.querySelector('#address');
+
+var appartmentType = document.querySelector('#type');
+var appartmentPrice = document.querySelector('#price');
+var appartmentRoomNumber = document.querySelector('#room_number');
+var appartmentCapacity = document.querySelector('#capacity');
+var appartmentTimein = document.querySelector('#timein');
+var appartmentTimeout = document.querySelector('#timeout');
 
 // Метод нахождения рандомного числа от min до max
 var getRandomNumber = function (min, max) {
@@ -233,6 +253,16 @@ var setAddress = function (element) {
   address.value = element.offsetLeft + ', ' + element.offsetTop;
 };
 
+var enableCorrectOptions = function (value) {
+  var options = appartmentCapacity.querySelectorAll('option');
+  var rooms = CAPACITY_ROOMS[value];
+
+  appartmentCapacity.querySelector('[value="' + rooms[0] + '"]').selected = true;
+  options.forEach(function (option) {
+    option.disabled = !rooms.includes(option.value);
+  });
+};
+
 // Метод активации страницы
 var activate = function (evt) {
   removeClass('.map', 'map--faded');
@@ -244,6 +274,7 @@ var activate = function (evt) {
   addMapPinsEventListeners();
   setAddress(evt.currentTarget);
   mapPinMain.removeEventListener('mouseup', activate);
+  enableCorrectOptions(appartmentRoomNumber.value);
 };
 
 var onMapCardEscPress = function (evt) {
@@ -283,4 +314,23 @@ mapPinMain.addEventListener('mouseup', activate);
 
 popupClose.forEach(function (close) {
   close.addEventListener('click', closeMapCard);
+});
+
+appartmentType.addEventListener('change', function (evt) {
+  var minPriceValue = MIN_PRICE[evt.currentTarget.value];
+
+  appartmentPrice.min = minPriceValue;
+  appartmentPrice.value = minPriceValue;
+});
+
+appartmentTimein.addEventListener('change', function (evt) {
+  appartmentTimeout.selectedIndex = evt.currentTarget.selectedIndex;
+});
+
+appartmentTimeout.addEventListener('change', function (evt) {
+  appartmentTimein.selectedIndex = evt.currentTarget.selectedIndex;
+});
+
+appartmentRoomNumber.addEventListener('change', function (evt) {
+  enableCorrectOptions(evt.currentTarget.value);
 });
