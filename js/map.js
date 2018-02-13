@@ -253,7 +253,7 @@ var setAddress = function (element) {
   address.value = element.offsetLeft + ', ' + element.offsetTop;
 };
 
-var disabled = function (value) {
+var deactivate = function (value) {
   var options = appartmentCapacity.querySelectorAll('option');
 
   options.forEach(function (option) {
@@ -272,7 +272,7 @@ var activate = function (evt) {
   addMapPinsEventListeners();
   setAddress(evt.currentTarget);
   mapPinMain.removeEventListener('mouseup', activate);
-  disabled(appartmentRoomNumber.value);
+  deactivate(appartmentRoomNumber.value);
 };
 
 var onMapCardEscPress = function (evt) {
@@ -315,8 +315,10 @@ popupClose.forEach(function (close) {
 });
 
 appartmentType.addEventListener('change', function (evt) {
-  appartmentPrice.min = MIN_PRICE[evt.currentTarget.value];
-  appartmentPrice.value = MIN_PRICE[evt.currentTarget.value];
+  var minPriceValue = MIN_PRICE[evt.currentTarget.value];
+
+  appartmentPrice.min = minPriceValue;
+  appartmentPrice.value = minPriceValue;
 });
 
 appartmentTimein.addEventListener('change', function (evt) {
@@ -328,5 +330,5 @@ appartmentTimeout.addEventListener('change', function (evt) {
 });
 
 appartmentRoomNumber.addEventListener('change', function (evt) {
-  disabled(evt.currentTarget.value);
+  deactivate(evt.currentTarget.value);
 });
