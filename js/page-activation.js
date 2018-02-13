@@ -4,13 +4,6 @@
   var address = document.querySelector('#address');
   var mapPinMain = window.util.map.querySelector('.map__pin--main');
 
-  // Удаление класса у любого узла
-  var removeClass = function (selector, className) {
-    var node = document.querySelector(selector);
-
-    node.classList.remove(className);
-  };
-
   // Добавление адреса в поле "Адрес"
   var setAddress = function (element) {
     address.value = element.offsetLeft + ', ' + element.offsetTop;
@@ -18,10 +11,10 @@
 
   // Метод активации страницы
   var activate = function (evt) {
-    removeClass('.map', 'map--faded');
-    removeClass('.notice__form', 'notice__form--disabled');
+    window.util.removeClass('.map', 'map--faded');
+    window.util.removeClass('.notice__form', 'notice__form--disabled');
     window.util.fieldset.forEach(function (element) {
-      element.disabled = false;
+      window.util.deactivate(element, false);
     });
     window.pin.buildPinsFragment();
     window.card.addMapPinsEventListeners();

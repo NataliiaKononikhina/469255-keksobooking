@@ -3,7 +3,7 @@
 (function () {
   // Создание фрагмента с метоками квартир для карты города
   var getMapPins = function () {
-    var arr = window.data.getArr;
+    var arr = window.data.advertArr;
     var similarMapPin = window.util.template.content.querySelector('.map__pin');
 
     return arr.reduce(function (fragment, advert) {
