@@ -253,11 +253,13 @@ var setAddress = function (element) {
   address.value = element.offsetLeft + ', ' + element.offsetTop;
 };
 
-var deactivate = function (value) {
+var enableCorrectOptions = function (value) {
   var options = appartmentCapacity.querySelectorAll('option');
+  var rooms = CAPACITY_ROOMS[value];
 
+  appartmentCapacity.querySelector('[value="' + rooms[0] + '"]').selected = true;
   options.forEach(function (option) {
-    option.disabled = !CAPACITY_ROOMS[value].includes(option.value);
+    option.disabled = !rooms.includes(option.value);
   });
 };
 
@@ -272,7 +274,7 @@ var activate = function (evt) {
   addMapPinsEventListeners();
   setAddress(evt.currentTarget);
   mapPinMain.removeEventListener('mouseup', activate);
-  deactivate(appartmentRoomNumber.value);
+  enableCorrectOptions(appartmentRoomNumber.value);
 };
 
 var onMapCardEscPress = function (evt) {
@@ -330,5 +332,5 @@ appartmentTimeout.addEventListener('change', function (evt) {
 });
 
 appartmentRoomNumber.addEventListener('change', function (evt) {
-  deactivate(evt.currentTarget.value);
+  enableCorrectOptions(evt.currentTarget.value);
 });
