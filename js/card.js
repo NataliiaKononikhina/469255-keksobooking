@@ -119,7 +119,7 @@
   popupClose = window.util.map.querySelectorAll('.popup__close');
 
   popupClose.forEach(function (close) {
-    close.addEventListener('click', window.card.closeMapCard);
+    close.addEventListener('click', closeMapCard);
   });
 
   window.card = {
