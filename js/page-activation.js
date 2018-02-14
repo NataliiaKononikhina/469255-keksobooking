@@ -6,7 +6,7 @@
 
   // Добавление адреса в поле "Адрес"
   var setAddress = function (element) {
-    address.value = element.offsetLeft + ', ' + element.offsetTop;
+    address.value = element.offsetLeft + ', ' + (element.offsetTop + 48);
   };
 
   // Метод активации страницы
@@ -24,5 +24,46 @@
   };
 
   setAddress(mapPinMain);
-  mapPinMain.addEventListener('mouseup', activate);
+
+  mapPinMain.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    var limitationTop = 100;
+    var limitationBottom = 500;
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      if (limitationTop < moveEvt.clientY && moveEvt.clientY < limitationBottom) {
+        mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
+        mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
+      }
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      window.util.map.removeEventListener('mousemove', onMouseMove);
+      window.util.map.removeEventListener('mouseup', onMouseUp);
+    };
+
+    window.util.map.addEventListener('mousemove', onMouseMove);
+    window.util.map.addEventListener('mouseup', onMouseUp);
+    mapPinMain.addEventListener('mouseup', activate);
+  });
 })();
