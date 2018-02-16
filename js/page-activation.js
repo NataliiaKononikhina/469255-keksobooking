@@ -2,8 +2,9 @@
 
 (function () {
   var LIMITATION_TOP = 100;
-  var LIMITATION_BOTTOM = 500;
+  var LIMITATION_BOTTOM = 550;
   var FROM_CENTER_TO_BOTTOM_PIN = 48;
+  var PIN_HEIGHT = 155;
   // var FROM_CENTER_TO_LEFT_PIN = 65;
 
   var address = document.querySelector('#address');
@@ -81,9 +82,14 @@
         y: moveEvt.clientY
       };
 
-      if (moveEvt.clientY > LIMITATION_TOP && moveEvt.clientY < LIMITATION_BOTTOM) {
-        mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
-        mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
+      mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
+      mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
+
+      if (moveEvt.clientY < LIMITATION_TOP) {
+        mapPinMain.style.top = LIMITATION_TOP + 'px';
+      }
+      if (moveEvt.clientY > LIMITATION_BOTTOM) {
+        mapPinMain.style.top = (LIMITATION_BOTTOM + PIN_HEIGHT) + 'px';
       }
     };
 
