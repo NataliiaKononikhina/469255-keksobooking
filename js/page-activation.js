@@ -5,6 +5,7 @@
   var LIMITATION_BOTTOM = 500;
   var FROM_CENTER_TO_BOTTOM_PIN = 45;
   var PIN_HEIGHT = 155;
+  var PIN_HALF_WIDTH = 10;
 
   var address = document.querySelector('#address');
   var mapPinMain = window.util.map.querySelector('.map__pin--main');
@@ -30,6 +31,22 @@
 
   setAddress(mapPinMain);
 
+  var checkCoords = function (newCoords) {
+    if (newCoords.y < LIMITATION_TOP) {
+      newCoords.y = LIMITATION_TOP;
+    }
+    if ((newCoords.y - PIN_HEIGHT) > LIMITATION_BOTTOM) {
+      newCoords.y = (LIMITATION_BOTTOM + PIN_HEIGHT);
+    }
+    if (newCoords.x < PIN_HALF_WIDTH) {
+      newCoords.x = PIN_HALF_WIDTH;
+    }
+    if (newCoords.x > (document.body.clientWidth - PIN_HALF_WIDTH)) {
+      newCoords.x = document.body.clientWidth - PIN_HALF_WIDTH;
+    }
+    return newCoords;
+  };
+
   mapPinMain.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -51,15 +68,15 @@
         y: moveEvt.clientY
       };
 
-      mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
-      mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
+      var newCoords = {
+        x: mapPinMain.offsetLeft - shift.x,
+        y: mapPinMain.offsetTop - shift.y
+      };
 
-      if (mapPinMain.offsetTop < LIMITATION_TOP) {
-        mapPinMain.style.top = LIMITATION_TOP + 'px';
-      }
-      if ((mapPinMain.offsetTop - PIN_HEIGHT) > LIMITATION_BOTTOM) {
-        mapPinMain.style.top = (LIMITATION_BOTTOM + PIN_HEIGHT) + 'px';
-      }
+      newCoords = checkCoords(newCoords);
+
+      mapPinMain.style.top = newCoords.y + 'px';
+      mapPinMain.style.left = newCoords.x + 'px';
     };
 
     var onMouseUp = function (upEvt) {
@@ -67,15 +84,13 @@
 
       onMouseMove(upEvt);
 
-      window.util.map.removeEventListener('mousemove', onMouseMove);
-      window.util.map.removeEventListener('mouseup', onMouseUp);
-      window.util.map.removeEventListener('mouseleave', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
       mapPinMain.removeEventListener('mouseup', activate);
     };
 
-    window.util.map.addEventListener('mousemove', onMouseMove);
-    window.util.map.addEventListener('mouseup', onMouseUp);
-    window.util.map.addEventListener('mouseleave', onMouseUp);
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
     mapPinMain.addEventListener('mouseup', activate);
   });
 })();
