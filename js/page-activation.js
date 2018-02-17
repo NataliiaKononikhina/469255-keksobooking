@@ -5,7 +5,7 @@
   var LIMITATION_BOTTOM = 500;
   var FROM_CENTER_TO_BOTTOM_PIN = 45;
   var PIN_HEIGHT = 155;
-  var PIN_HALF_WIDTH = 10;
+  var PIN_OFFSET_X = 80;
 
   var address = document.querySelector('#address');
   var mapPinMain = window.util.map.querySelector('.map__pin--main');
@@ -32,17 +32,19 @@
   setAddress(mapPinMain);
 
   var checkCoords = function (newCoords) {
+    var maxMapWidth = document.body.clientWidth - PIN_OFFSET_X;
+
     if (newCoords.y < LIMITATION_TOP) {
       newCoords.y = LIMITATION_TOP;
     }
     if ((newCoords.y - PIN_HEIGHT) > LIMITATION_BOTTOM) {
       newCoords.y = (LIMITATION_BOTTOM + PIN_HEIGHT);
     }
-    if (newCoords.x < PIN_HALF_WIDTH) {
-      newCoords.x = PIN_HALF_WIDTH;
+    if (newCoords.x < PIN_OFFSET_X) {
+      newCoords.x = PIN_OFFSET_X;
     }
-    if (newCoords.x > (document.body.clientWidth - PIN_HALF_WIDTH)) {
-      newCoords.x = document.body.clientWidth - PIN_HALF_WIDTH;
+    if (newCoords.x > maxMapWidth) {
+      newCoords.x = maxMapWidth;
     }
     return newCoords;
   };
