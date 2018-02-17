@@ -38,7 +38,7 @@
     if (newCoords.y < LIMITATION_TOP) {
       newCoords.y = LIMITATION_TOP;
     }
-    if ((newCoords.y - PIN_HEIGHT) > LIMITATION_BOTTOM) {
+    if (newCoords.y > maxY) {
       newCoords.y = maxY;
     }
     if (newCoords.x < PIN_OFFSET_X) {
