@@ -32,19 +32,20 @@
   setAddress(mapPinMain);
 
   var checkCoords = function (newCoords) {
-    var maxMapWidth = document.body.clientWidth - PIN_OFFSET_X;
+    var maxX = document.body.clientWidth - PIN_OFFSET_X;
+    var maxY = LIMITATION_BOTTOM + PIN_HEIGHT;
 
     if (newCoords.y < LIMITATION_TOP) {
       newCoords.y = LIMITATION_TOP;
     }
     if ((newCoords.y - PIN_HEIGHT) > LIMITATION_BOTTOM) {
-      newCoords.y = (LIMITATION_BOTTOM + PIN_HEIGHT);
+      newCoords.y = maxY;
     }
     if (newCoords.x < PIN_OFFSET_X) {
       newCoords.x = PIN_OFFSET_X;
     }
-    if (newCoords.x > maxMapWidth) {
-      newCoords.x = maxMapWidth;
+    if (newCoords.x > maxX) {
+      newCoords.x = maxX;
     }
     return newCoords;
   };
