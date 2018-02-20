@@ -98,6 +98,6 @@
 
   window.data = {
     apartmentType: APARTMENT_TYPE,
-    advertArr: getArr()
+    advertArr: []
   };
 })();

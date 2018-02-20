@@ -12,6 +12,12 @@
     node.classList.remove(className);
   };
 
+  var addClass = function (selector, className) {
+    var node = document.querySelector(selector);
+
+    node.classList.add(className);
+  };
+
   var deactivate = function (element, valid) {
     element.disabled = valid;
   };
@@ -22,6 +28,7 @@
     deactivate: deactivate,
     fieldset: document.querySelectorAll('fieldset'),
     map: document.querySelector('.map'),
-    template: document.querySelector('template')
+    template: document.querySelector('template'),
+    addClass: addClass
   };
 })();
