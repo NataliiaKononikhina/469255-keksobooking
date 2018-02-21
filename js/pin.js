@@ -1,9 +1,10 @@
 'use strict';
 
 (function () {
+  var mapPins = window.util.map.querySelector('.map__pins');
   // Создание фрагмента с метоками квартир для карты города
   var getMapPins = function () {
-    var arr = window.data.advertArr;
+    var arr = window.card.advertArr;
     var similarMapPin = window.util.template.content.querySelector('.map__pin');
 
     return arr.reduce(function (fragment, advert) {
@@ -20,12 +21,20 @@
 
   // Добавление меток на карту города
   var buildPinsFragment = function () {
-    var mapPins = window.util.map.querySelector('.map__pins');
-
     mapPins.appendChild(getMapPins());
   };
 
+  var removePins = function () {
+    var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    pins.forEach(function (pin) {
+      pin.remove();
+    });
+  };
+
   window.pin = {
-    buildPinsFragment: buildPinsFragment
+    buildPinsFragment: buildPinsFragment,
+    getMapPins: getMapPins,
+    removePins: removePins
   };
 })();

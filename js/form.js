@@ -61,6 +61,7 @@
 
   window.form = {
     appartmentRoomNumber: appartmentRoomNumber,
-    enableCorrectOptions: enableCorrectOptions
+    enableCorrectOptions: enableCorrectOptions,
+    deactivateFieldset: deactivateFieldset
   };
 })();
