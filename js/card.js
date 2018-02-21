@@ -109,8 +109,10 @@
 
   // Метод закрытия карточки
   var closeMapCard = function () {
-    if (document.querySelector('.map__card:not(.hidden)')) {
-      document.querySelector('.map__card:not(.hidden)').classList.add('hidden');
+    var shownMapCard = document.querySelector('.map__card:not(.hidden)');
+
+    if (shownMapCard) {
+      shownMapCard.classList.add('hidden');
     }
 
     document.removeEventListener('keydown', onMapCardEscPress);
