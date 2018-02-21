@@ -12,18 +12,13 @@
   };
 
   var successHandler = function (pins) {
-    window.data.advertArr = pins;
+    window.card.advertArr = pins;
     window.pageActivation.activateHandler();
   };
 
   var errorHandler = function (errorMessage) {
     var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 100px auto; padding: 20px; text-align: center; border-top: solid 3px #ff5635; border-bottom: solid 3px #ff5635; background-color: rgba(255, 86, 53, 0.7);';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-    node.style.color = '#fff';
+    node.classList.add('error-messange');
 
     node.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', node);
