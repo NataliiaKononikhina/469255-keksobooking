@@ -1,9 +1,11 @@
 'use strict';
 
 (function () {
+  var SUCCESS_CODE = 200;
+
   var xhrHandler = function (xhr, onError, onLoad) {
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === SUCCESS_CODE) {
         onLoad(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);

@@ -9,8 +9,6 @@
 
   var ESC_CLICK = 27;
 
-  var popupClose;
-
   // Создание фрагмента с удобствами для отображения в карточке
   var mapFeaturesToDom = function (featuresArr) {
     var liFeatures = document.createElement('li');
@@ -102,15 +100,18 @@
   // Метод открытия карточки
   var openMapCard = function (src) {
     var allCards = window.util.map.querySelectorAll('.map__card');
+    var popupClose;
 
     allCards.forEach(function (card) {
       card.classList.add('hidden');
       if (card.querySelector('.popup__avatar').src === src) {
         card.classList.remove('hidden');
+        popupClose = card.querySelector('.popup__close');
       }
     });
 
     document.addEventListener('keydown', onMapCardEscPress);
+    popupClose.addEventListener('click', closeMapCard);
   };
 
   // Метод закрытия карточки
@@ -122,13 +123,8 @@
     }
 
     document.removeEventListener('keydown', onMapCardEscPress);
+    shownMapCard.querySelector('.popup__close').removeEventListener('click', closeMapCard);
   };
-
-  popupClose = window.util.map.querySelectorAll('.popup__close');
-
-  popupClose.forEach(function (close) {
-    close.addEventListener('click', closeMapCard);
-  });
 
   window.card = {
     getMapCards: getMapCards,
