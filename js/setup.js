@@ -50,8 +50,12 @@
     window.card.addMapPinsEventListeners();
   };
 
+  // var a = window.debounce(mapFilterHandler);
+
   var mapFilterEvt = function (mapFilter) {
-    mapFilter.addEventListener('change', mapFilterHandler);
+    mapFilter.addEventListener('change', function () {
+      window.debounce(mapFilterHandler);
+    });
   };
 
   mapFilters.forEach(mapFilterEvt);
