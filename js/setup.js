@@ -39,24 +39,23 @@
 
     var checkedHousingFeatures = mapFiltersForm.querySelectorAll('#housing-features input:checked');
 
-    for (var i = 0; i < checkedHousingFeatures.length; i++) {
+    checkedHousingFeatures.forEach(function (checkedFeature) {
       window.card.advertArr = window.card.advertArr.filter(function (advert) {
-        return advert.offer.features.includes(checkedHousingFeatures[i].value);
+        return advert.offer.features.includes(checkedFeature.value);
       });
-    }
+    });
 
     window.pin.removePins();
     window.pin.buildPinsFragment();
     window.card.addMapPinsEventListeners();
   };
 
-  mapFilters.forEach(function (mapFilter) {
+  var mapFilterEvt = function (mapFilter) {
     mapFilter.addEventListener('change', mapFilterHandler);
-  });
+  };
 
-  housingFeatures.forEach(function (mapFilter) {
-    mapFilter.addEventListener('change', mapFilterHandler);
-  });
+  mapFilters.forEach(mapFilterEvt);
+  housingFeatures.forEach(mapFilterEvt);
 
   var successHandler = function (adverts) {
     window.initialAdvertArr = adverts.slice();
