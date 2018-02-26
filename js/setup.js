@@ -20,6 +20,16 @@
   var housingGuests = mapFiltersForm.querySelector('#housing-guests');
   var housingFeatures = mapFiltersForm.querySelectorAll('.map__filter-set input');
 
+  var DEBOUNCE_INTERVAL = 500; // ms
+
+  var lastTimeout;
+  window.debounce = function (fun) {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
+  };
+
   var mapFilterHandler = function () {
     var filtersMap = {
       type: housingType.value,
