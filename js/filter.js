@@ -11,19 +11,42 @@
   var housingFeatures = mapFiltersForm.querySelectorAll('.map__filter-set input');
 
   var mapFilterHandler = function () {
+    var filterByNumber = function (advert, key) {
+      return advert.offer[key] === Number(filtersMap[key].value);
+    };
+
     var filtersMap = {
-      type: housingType.value,
-      price: housingPrice.value,
-      rooms: housingRooms.value,
-      guests: housingGuests.value
+      type: {
+        value: housingType.value,
+        filter: function (advert, key) {
+          return advert.offer[key] === filtersMap[key].value;
+        }
+      },
+      price: {
+        value: housingPrice.value,
+        filter: function (advert, key) {
+          var Price = {
+            'low': advert.offer[key] < 10000,
+            'high': advert.offer[key] > 50000,
+            'middle': advert.offer[key] > 10000 && advert.offer[key] < 50000
+          };
+          return Price[filtersMap[key].value];
+        }
+      },
+      rooms: {
+        value: housingRooms.value
+      },
+      guests: {
+        value: housingGuests.value
+      },
     };
 
     window.card.advertArr = Object.keys(filtersMap).reduce(function (filteredArray, key) {
-      if (filtersMap[key] === 'any') {
+      if (filtersMap[key].value === 'any') {
         return filteredArray;
       }
       return filteredArray.filter(function (advert) {
-        return advert.offer[key] === filtersMap[key];
+        return filtersMap[key].filter ? filtersMap[key].filter(advert, key) : filterByNumber(advert, key);
       });
     }, window.initialAdvertArr);
 
