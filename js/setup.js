@@ -5,14 +5,15 @@
 
   var deactivate = function () {
     window.form.deactivateFieldset();
-    window.util.addClass('.map', 'map--faded');
-    window.util.addClass('.notice__form', 'notice__form--disabled');
+    window.util.map.classList.add('map--faded');
+    form.classList.add('notice__form--disabled');
     window.card.closeMapCard();
     window.pin.removePins();
   };
 
-  var successHandler = function (pins) {
-    window.card.advertArr = pins;
+  var successHandler = function (adverts) {
+    window.initialAdvertArr = adverts.slice();
+    window.card.advertArr = adverts;
     window.pageActivation.activateHandler();
   };
 

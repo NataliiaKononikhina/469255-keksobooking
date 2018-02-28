@@ -10,6 +10,8 @@
   var address = document.querySelector('#address');
   var mapPinMain = window.util.map.querySelector('.map__pin--main');
 
+  var noticeForm = document.querySelector('.notice__form');
+
   // Добавление адреса в поле "Адрес"
   var setAddress = function (element) {
     address.value = element.offsetLeft + ', ' + (element.offsetTop + FROM_CENTER_TO_BOTTOM_PIN);
@@ -17,8 +19,8 @@
 
   // Метод активации страницы
   var activate = function (evt) {
-    window.util.removeClass('.map', 'map--faded');
-    window.util.removeClass('.notice__form', 'notice__form--disabled');
+    window.util.map.classList.remove('map--faded');
+    noticeForm.classList.remove('notice__form--disabled');
     window.util.fieldset.forEach(function (element) {
       window.util.deactivate(element, false);
     });
