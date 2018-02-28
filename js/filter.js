@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var LOW_PRICE = 10000;
+  var HIGH_PRICE = 50000;
   var mapFilters = window.util.map.querySelectorAll('.map__filter');
   var mapFiltersForm = window.util.map.querySelector('.map__filters');
 
@@ -26,9 +28,9 @@
         value: housingPrice.value,
         filter: function (advert, key) {
           var Price = {
-            'low': advert.offer[key] < 10000,
-            'high': advert.offer[key] > 50000,
-            'middle': advert.offer[key] > 10000 && advert.offer[key] < 50000
+            'low': advert.offer[key] < LOW_PRICE,
+            'high': advert.offer[key] > HIGH_PRICE,
+            'middle': advert.offer[key] > LOW_PRICE && advert.offer[key] < HIGH_PRICE
           };
           return Price[filtersMap[key].value];
         }

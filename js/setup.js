@@ -5,8 +5,8 @@
 
   var deactivate = function () {
     window.form.deactivateFieldset();
-    window.util.addClass('.map', 'map--faded');
-    window.util.addClass('.notice__form', 'notice__form--disabled');
+    window.util.map.classList.add('map--faded');
+    form.classList.add('notice__form--disabled');
     window.card.closeMapCard();
     window.pin.removePins();
   };
