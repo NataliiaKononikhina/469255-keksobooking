@@ -19,6 +19,9 @@
 
   // Метод активации страницы
   var activate = function (evt) {
+    if (evt.type !== 'mouseup' && !(evt.type === 'keydown' && evt.keyCode === window.util.ENTER_CLICK)) {
+      return;
+    }
     window.util.map.classList.remove('map--faded');
     noticeForm.classList.remove('notice__form--disabled');
     window.util.fieldset.forEach(function (element) {
@@ -31,8 +34,6 @@
     window.form.enableCorrectOptions(window.form.appartmentRoomNumber.value);
     window.card.getMapCards();
   };
-
-  setAddress(mapPinMain);
 
   var checkCoords = function (newCoords) {
     var maxX = document.body.clientWidth - PIN_OFFSET_X;
@@ -54,6 +55,7 @@
   };
 
   var activateHandler = function () {
+    mapPinMain.addEventListener('keydown', activate);
     mapPinMain.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
 
@@ -101,6 +103,12 @@
       mapPinMain.addEventListener('mouseup', activate);
     });
   };
+
+  var init = function () {
+    setAddress(mapPinMain);
+  };
+
+  init();
 
   window.pageActivation = {
     activateHandler: activateHandler

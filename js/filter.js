@@ -12,11 +12,32 @@
   var housingGuests = mapFiltersForm.querySelector('#housing-guests');
   var housingFeatures = mapFiltersForm.querySelectorAll('.map__filter-set input');
 
-  var mapFilterHandler = function () {
+  var applyFilters = function (filtersMap) {
+    var checkedHousingFeatures = mapFiltersForm.querySelectorAll('#housing-features input:checked');
+
     var filterByNumber = function (advert, key) {
       return advert.offer[key] === Number(filtersMap[key].value);
     };
 
+    var filteredAdvert = Object.keys(filtersMap).reduce(function (filteredArray, key) {
+      if (filtersMap[key].value === 'any') {
+        return filteredArray;
+      }
+      return filteredArray.filter(function (advert) {
+        return filtersMap[key].filter ? filtersMap[key].filter(advert, key) : filterByNumber(advert, key);
+      });
+    }, window.initialAdvertArr);
+
+    checkedHousingFeatures.forEach(function (checkedFeature) {
+      filteredAdvert = filteredAdvert.filter(function (advert) {
+        return advert.offer.features.includes(checkedFeature.value);
+      });
+    });
+
+    return filteredAdvert;
+  };
+
+  var mapFilterHandler = function () {
     var filtersMap = {
       type: {
         value: housingType.value,
@@ -43,22 +64,7 @@
       },
     };
 
-    window.card.advertArr = Object.keys(filtersMap).reduce(function (filteredArray, key) {
-      if (filtersMap[key].value === 'any') {
-        return filteredArray;
-      }
-      return filteredArray.filter(function (advert) {
-        return filtersMap[key].filter ? filtersMap[key].filter(advert, key) : filterByNumber(advert, key);
-      });
-    }, window.initialAdvertArr);
-
-    var checkedHousingFeatures = mapFiltersForm.querySelectorAll('#housing-features input:checked');
-
-    checkedHousingFeatures.forEach(function (checkedFeature) {
-      window.card.advertArr = window.card.advertArr.filter(function (advert) {
-        return advert.offer.features.includes(checkedFeature.value);
-      });
-    });
+    window.card.advertArr = applyFilters(filtersMap);
 
     window.pin.removePins();
     window.pin.buildPinsFragment();
@@ -71,6 +77,14 @@
     });
   };
 
-  mapFilters.forEach(mapFilterEvt);
-  housingFeatures.forEach(mapFilterEvt);
+  var addFilterListeners = function () {
+    mapFilters.forEach(mapFilterEvt);
+    housingFeatures.forEach(mapFilterEvt);
+  };
+
+  var init = function () {
+    addFilterListeners();
+  };
+
+  init();
 })();

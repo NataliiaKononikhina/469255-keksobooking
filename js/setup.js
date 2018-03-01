@@ -9,6 +9,7 @@
     form.classList.add('notice__form--disabled');
     window.card.closeMapCard();
     window.pin.removePins();
+    window.card.removeMapCards();
   };
 
   var successHandler = function (adverts) {

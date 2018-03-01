@@ -25,6 +25,7 @@
     deactivate: deactivate,
     fieldset: document.querySelectorAll('fieldset'),
     map: document.querySelector('.map'),
-    template: document.querySelector('template')
+    template: document.querySelector('template'),
+    ENTER_CLICK: 13
   };
 })();

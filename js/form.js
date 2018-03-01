@@ -37,27 +37,34 @@
     });
   };
 
-  deactivateFieldset();
+  var addFormListeners = function () {
+    appartmentType.addEventListener('change', function (evt) {
+      var appartmentPrice = document.querySelector('#price');
+      var minPriceValue = MIN_PRICE[evt.currentTarget.value];
 
-  appartmentType.addEventListener('change', function (evt) {
-    var appartmentPrice = document.querySelector('#price');
-    var minPriceValue = MIN_PRICE[evt.currentTarget.value];
+      appartmentPrice.min = minPriceValue;
+      appartmentPrice.value = minPriceValue;
+    });
 
-    appartmentPrice.min = minPriceValue;
-    appartmentPrice.value = minPriceValue;
-  });
+    appartmentTimein.addEventListener('change', function (evt) {
+      appartmentTimeout.selectedIndex = evt.currentTarget.selectedIndex;
+    });
 
-  appartmentTimein.addEventListener('change', function (evt) {
-    appartmentTimeout.selectedIndex = evt.currentTarget.selectedIndex;
-  });
+    appartmentTimeout.addEventListener('change', function (evt) {
+      appartmentTimein.selectedIndex = evt.currentTarget.selectedIndex;
+    });
 
-  appartmentTimeout.addEventListener('change', function (evt) {
-    appartmentTimein.selectedIndex = evt.currentTarget.selectedIndex;
-  });
+    appartmentRoomNumber.addEventListener('change', function (evt) {
+      window.form.enableCorrectOptions(evt.currentTarget.value);
+    });
+  };
 
-  appartmentRoomNumber.addEventListener('change', function (evt) {
-    window.form.enableCorrectOptions(evt.currentTarget.value);
-  });
+  var init = function () {
+    deactivateFieldset();
+    addFormListeners();
+  };
+
+  init();
 
   window.form = {
     appartmentRoomNumber: appartmentRoomNumber,

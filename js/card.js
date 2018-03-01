@@ -112,24 +112,38 @@
 
     document.addEventListener('keydown', onMapCardEscPress);
     popupClose.addEventListener('click', closeMapCard);
+    popupClose.addEventListener('keydown', closeMapCard);
   };
 
   // Метод закрытия карточки
-  var closeMapCard = function () {
+  var closeMapCard = function (evt) {
+    if (evt.type !== 'mouseup' && !(evt.type === 'keydown' && evt.keyCode === window.util.ENTER_CLICK)) {
+      return;
+    }
+
     var shownMapCard = document.querySelector('.map__card:not(.hidden)');
 
     if (shownMapCard) {
       shownMapCard.classList.add('hidden');
+      shownMapCard.querySelector('.popup__close').removeEventListener('click', closeMapCard);
     }
 
     document.removeEventListener('keydown', onMapCardEscPress);
-    shownMapCard.querySelector('.popup__close').removeEventListener('click', closeMapCard);
+  };
+
+  var removeMapCards = function () {
+    var mapCards = window.util.map.querySelectorAll('.map__card');
+
+    mapCards.forEach(function (card) {
+      card.remove();
+    });
   };
 
   window.card = {
     getMapCards: getMapCards,
     addMapPinsEventListeners: addMapPinsEventListeners,
     closeMapCard: closeMapCard,
-    advertArr: []
+    advertArr: [],
+    removeMapCards: removeMapCards
   };
 })();
