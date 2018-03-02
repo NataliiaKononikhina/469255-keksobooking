@@ -71,18 +71,18 @@
     window.card.removeMapCards();
     window.pin.buildPinsFragment();
     window.card.getMapCards();
-    window.card.addMapPinsEventListeners();
+    window.card.addMapPinsListeners();
   };
 
-  var mapFilterEvt = function (mapFilter) {
+  var addMapFilterListener = function (mapFilter) {
     mapFilter.addEventListener('change', function () {
       window.util.debounce(mapFilterHandler);
     });
   };
 
   var addFilterListeners = function () {
-    mapFilters.forEach(mapFilterEvt);
-    housingFeatures.forEach(mapFilterEvt);
+    mapFilters.forEach(addMapFilterListener);
+    housingFeatures.forEach(addMapFilterListener);
   };
 
   var init = function () {

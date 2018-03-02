@@ -78,7 +78,7 @@
   };
 
   // Метод нахождения нужной карточки
-  var addMapPinsEventListeners = function () {
+  var addMapPinsListeners = function () {
     var mapPins = window.util.map.querySelectorAll('.map__pin');
 
     mapPins.forEach(function (mapPin) {
@@ -137,7 +137,7 @@
 
   window.card = {
     getMapCards: getMapCards,
-    addMapPinsEventListeners: addMapPinsEventListeners,
+    addMapPinsListeners: addMapPinsListeners,
     closeMapCard: closeMapCard,
     advertArr: [],
     removeMapCards: removeMapCards

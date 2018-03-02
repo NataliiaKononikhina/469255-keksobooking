@@ -28,7 +28,7 @@
       window.util.deactivate(element, false);
     });
     window.pin.buildPinsFragment();
-    window.card.addMapPinsEventListeners();
+    window.card.addMapPinsListeners();
     setAddress(evt.currentTarget);
     mapPinMain.removeEventListener('mouseup', activate);
     window.form.enableCorrectOptions(window.form.appartmentRoomNumber.value);
@@ -54,7 +54,7 @@
     return newCoords;
   };
 
-  var activateHandler = function () {
+  var addMapPinMainListeners = function () {
     mapPinMain.addEventListener('keydown', activate);
     mapPinMain.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
@@ -111,6 +111,6 @@
   init();
 
   window.pageActivation = {
-    activateHandler: activateHandler
+    addMapPinMainListeners: addMapPinMainListeners
   };
 })();
