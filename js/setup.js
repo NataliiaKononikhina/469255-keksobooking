@@ -14,7 +14,7 @@
 
   var successHandler = function (adverts) {
     window.initialAdvertArr = adverts.slice();
-    window.card.advertArr = adverts;
+    window.card.advertArr = adverts.slice(0, 5);
     window.pageActivation.activateHandler();
   };
 

@@ -3,6 +3,7 @@
 (function () {
   var LOW_PRICE = 10000;
   var HIGH_PRICE = 50000;
+
   var mapFilters = window.util.map.querySelectorAll('.map__filter');
   var mapFiltersForm = window.util.map.querySelector('.map__filters');
 
@@ -34,7 +35,7 @@
       });
     });
 
-    return filteredAdvert;
+    return filteredAdvert.slice(0, 5);
   };
 
   var mapFilterHandler = function () {
@@ -67,7 +68,9 @@
     window.card.advertArr = applyFilters(filtersMap);
 
     window.pin.removePins();
+    window.card.removeMapCards();
     window.pin.buildPinsFragment();
+    window.card.getMapCards();
     window.card.addMapPinsEventListeners();
   };
 
