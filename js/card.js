@@ -7,10 +7,8 @@
     house: 'Дом'
   };
 
-  var ESC_CLICK = 27;
-
   // Создание фрагмента с удобствами для отображения в карточке
-  var mapFeaturesToDom = function (featuresArr) {
+  var renderMapFeatures = function (featuresArr) {
     var liFeatures = document.createElement('li');
 
     liFeatures.classList.add('feature');
@@ -27,7 +25,7 @@
   };
 
   // Создание фрагмента с фотографиями для отображения в карточке
-  var picturesToDom = function (picturesArr) {
+  var renderPictures = function (picturesArr) {
     var ulPicture = window.util.template.content.querySelector('.popup__pictures');
 
     return picturesArr.reduce(function (fragment, picture) {
@@ -54,10 +52,10 @@
     allP[2].textContent = advert.offer.rooms + ' комнаты для ' + advert.offer.guests + ' гостей';
     allP[3].textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
     mapCard.querySelector('.popup__features').innerHTML = '';
-    mapCard.querySelector('.popup__features').appendChild(mapFeaturesToDom(advert.offer.features));
+    mapCard.querySelector('.popup__features').appendChild(renderMapFeatures(advert.offer.features));
     allP[4].textContent = advert.offer.description;
     mapCard.querySelector('.popup__pictures').innerHTML = '';
-    mapCard.querySelector('.popup__pictures').appendChild(picturesToDom(advert.offer.photos));
+    mapCard.querySelector('.popup__pictures').appendChild(renderPictures(advert.offer.photos));
     mapCard.querySelector('.popup__avatar').src = advert.author.avatar;
     mapCard.classList.add('hidden');
 
@@ -78,7 +76,7 @@
   };
 
   // Метод нахождения нужной карточки
-  var addMapPinsEventListeners = function () {
+  var addMapPinsListeners = function () {
     var mapPins = window.util.map.querySelectorAll('.map__pin');
 
     mapPins.forEach(function (mapPin) {
@@ -89,12 +87,6 @@
         openMapCard(evt.currentTarget.querySelector('img').src);
       });
     });
-  };
-
-  var onMapCardEscPress = function (evt) {
-    if (evt.keyCode === ESC_CLICK) {
-      closeMapCard();
-    }
   };
 
   // Метод открытия карточки
@@ -110,26 +102,43 @@
       }
     });
 
-    document.addEventListener('keydown', onMapCardEscPress);
+    document.addEventListener('keydown', closeMapCard);
     popupClose.addEventListener('click', closeMapCard);
+    popupClose.addEventListener('keydown', closeMapCard);
   };
 
   // Метод закрытия карточки
-  var closeMapCard = function () {
+  var closeMapCard = function (evt) {
+    if (evt && evt.type !== 'click' && (evt.keyCode !== window.util.ENTER_CLICK) && (evt.keyCode !== window.util.ESC_CLICK)) {
+      return;
+    }
+
     var shownMapCard = document.querySelector('.map__card:not(.hidden)');
 
     if (shownMapCard) {
+      var popupClose = shownMapCard.querySelector('.popup__close');
+
       shownMapCard.classList.add('hidden');
+      popupClose.removeEventListener('click', closeMapCard);
+      popupClose.removeEventListener('keydown', closeMapCard);
     }
 
-    document.removeEventListener('keydown', onMapCardEscPress);
-    shownMapCard.querySelector('.popup__close').removeEventListener('click', closeMapCard);
+    document.removeEventListener('keydown', closeMapCard);
+  };
+
+  var removeMapCards = function () {
+    var mapCards = window.util.map.querySelectorAll('.map__card');
+
+    mapCards.forEach(function (card) {
+      card.remove();
+    });
   };
 
   window.card = {
     getMapCards: getMapCards,
-    addMapPinsEventListeners: addMapPinsEventListeners,
+    addMapPinsListeners: addMapPinsListeners,
     closeMapCard: closeMapCard,
-    advertArr: []
+    advertArr: [],
+    removeMapCards: removeMapCards
   };
 })();

@@ -7,6 +7,7 @@
     house: 5000,
     palace: 10000
   };
+  var MAX_PRICE = 1000000;
   var CAPACITY_ROOMS = {
     1: ['1'],
     2: ['1', '2'],
@@ -26,42 +27,49 @@
 
     appartmentCapacity.querySelector('[value="' + rooms[0] + '"]').selected = true;
     options.forEach(function (option) {
-      window.util.deactivate(option, !rooms.includes(option.value));
+      option.disabled = !rooms.includes(option.value);
     });
   };
 
-  // Добавление атрибута disabled формам
-  var deactivateFieldset = function () {
+  var toggleDisable = function (value) {
     window.util.fieldset.forEach(function (element) {
-      window.util.deactivate(element, true);
+      element.disabled = value;
     });
   };
 
-  deactivateFieldset();
+  var addFormListeners = function () {
+    appartmentType.addEventListener('change', function (evt) {
+      var appartmentPrice = document.querySelector('#price');
+      var minPriceValue = MIN_PRICE[evt.currentTarget.value];
 
-  appartmentType.addEventListener('change', function (evt) {
-    var appartmentPrice = document.querySelector('#price');
-    var minPriceValue = MIN_PRICE[evt.currentTarget.value];
+      appartmentPrice.min = minPriceValue;
+      appartmentPrice.max = MAX_PRICE;
+      appartmentPrice.value = minPriceValue;
+    });
 
-    appartmentPrice.min = minPriceValue;
-    appartmentPrice.value = minPriceValue;
-  });
+    appartmentTimein.addEventListener('change', function (evt) {
+      appartmentTimeout.selectedIndex = evt.currentTarget.selectedIndex;
+    });
 
-  appartmentTimein.addEventListener('change', function (evt) {
-    appartmentTimeout.selectedIndex = evt.currentTarget.selectedIndex;
-  });
+    appartmentTimeout.addEventListener('change', function (evt) {
+      appartmentTimein.selectedIndex = evt.currentTarget.selectedIndex;
+    });
 
-  appartmentTimeout.addEventListener('change', function (evt) {
-    appartmentTimein.selectedIndex = evt.currentTarget.selectedIndex;
-  });
+    appartmentRoomNumber.addEventListener('change', function (evt) {
+      window.form.enableCorrectOptions(evt.currentTarget.value);
+    });
+  };
 
-  appartmentRoomNumber.addEventListener('change', function (evt) {
-    window.form.enableCorrectOptions(evt.currentTarget.value);
-  });
+  var init = function () {
+    toggleDisable(true);
+    addFormListeners();
+  };
+
+  init();
 
   window.form = {
     appartmentRoomNumber: appartmentRoomNumber,
     enableCorrectOptions: enableCorrectOptions,
-    deactivateFieldset: deactivateFieldset
+    toggleDisable: toggleDisable
   };
 })();

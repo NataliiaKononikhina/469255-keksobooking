@@ -15,16 +15,14 @@
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
-  var deactivate = function (element, valid) {
-    element.disabled = valid;
-  };
-
   window.util = {
     debounce: debounce,
     getRandomNumber: getRandomNumber,
-    deactivate: deactivate,
     fieldset: document.querySelectorAll('fieldset'),
     map: document.querySelector('.map'),
-    template: document.querySelector('template')
+    template: document.querySelector('template'),
+    form: document.querySelector('.notice__form'),
+    ENTER_CLICK: 13,
+    ESC_CLICK: 27
   };
 })();

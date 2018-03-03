@@ -1,20 +1,12 @@
 'use strict';
 
 (function () {
-  var form = document.querySelector('.notice__form');
-
-  var deactivate = function () {
-    window.form.deactivateFieldset();
-    window.util.map.classList.add('map--faded');
-    form.classList.add('notice__form--disabled');
-    window.card.closeMapCard();
-    window.pin.removePins();
-  };
+  var noticeForm = document.querySelector('.notice__form');
 
   var successHandler = function (adverts) {
     window.initialAdvertArr = adverts.slice();
-    window.card.advertArr = adverts;
-    window.pageActivation.activateHandler();
+    window.card.advertArr = adverts.slice(0, 5);
+    window.map.addMapPinMainListeners();
   };
 
   var errorHandler = function (errorMessage) {
@@ -25,12 +17,40 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
+  var activate = function (evt) {
+    if (evt.type !== 'mouseup' && !(evt.type === 'keydown' && evt.keyCode === window.util.ENTER_CLICK)) {
+      return;
+    }
+    window.util.map.classList.remove('map--faded');
+    noticeForm.classList.remove('notice__form--disabled');
+    window.form.toggleDisable(false);
+    window.pin.buildPinsFragment();
+    window.card.addMapPinsListeners();
+    window.map.setAddress(evt.currentTarget);
+    window.map.mapPinMain.removeEventListener('mouseup', activate);
+    window.form.enableCorrectOptions(window.form.appartmentRoomNumber.value);
+    window.card.getMapCards();
+  };
+
+  var deactivate = function () {
+    window.form.toggleDisable(true);
+    window.util.map.classList.add('map--faded');
+    window.util.form.classList.add('notice__form--disabled');
+    window.card.closeMapCard();
+    window.pin.removePins();
+    window.card.removeMapCards();
+  };
+
   window.backend.load(successHandler, errorHandler);
 
-  form.addEventListener('submit', function (evt) {
-    window.backend.upload(new FormData(form), function () {
+  window.util.form.addEventListener('submit', function (evt) {
+    window.backend.upload(new FormData(window.util.form), function () {
       deactivate();
     });
     evt.preventDefault();
   });
+
+  window.setup = {
+    activate: activate
+  };
 })();

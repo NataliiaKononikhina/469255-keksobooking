@@ -10,29 +10,10 @@
   var address = document.querySelector('#address');
   var mapPinMain = window.util.map.querySelector('.map__pin--main');
 
-  var noticeForm = document.querySelector('.notice__form');
-
   // Добавление адреса в поле "Адрес"
   var setAddress = function (element) {
     address.value = element.offsetLeft + ', ' + (element.offsetTop + FROM_CENTER_TO_BOTTOM_PIN);
   };
-
-  // Метод активации страницы
-  var activate = function (evt) {
-    window.util.map.classList.remove('map--faded');
-    noticeForm.classList.remove('notice__form--disabled');
-    window.util.fieldset.forEach(function (element) {
-      window.util.deactivate(element, false);
-    });
-    window.pin.buildPinsFragment();
-    window.card.addMapPinsEventListeners();
-    setAddress(evt.currentTarget);
-    mapPinMain.removeEventListener('mouseup', activate);
-    window.form.enableCorrectOptions(window.form.appartmentRoomNumber.value);
-    window.card.getMapCards();
-  };
-
-  setAddress(mapPinMain);
 
   var checkCoords = function (newCoords) {
     var maxX = document.body.clientWidth - PIN_OFFSET_X;
@@ -53,7 +34,8 @@
     return newCoords;
   };
 
-  var activateHandler = function () {
+  var addMapPinMainListeners = function () {
+    mapPinMain.addEventListener('keydown', window.setup.activate);
     mapPinMain.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
 
@@ -93,16 +75,24 @@
 
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
-        mapPinMain.removeEventListener('mouseup', activate);
+        mapPinMain.removeEventListener('mouseup', window.setup.activate);
       };
 
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
-      mapPinMain.addEventListener('mouseup', activate);
+      mapPinMain.addEventListener('mouseup', window.setup.activate);
     });
   };
 
-  window.pageActivation = {
-    activateHandler: activateHandler
+  var init = function () {
+    setAddress(mapPinMain);
+  };
+
+  init();
+
+  window.map = {
+    addMapPinMainListeners: addMapPinMainListeners,
+    setAddress: setAddress,
+    mapPinMain: mapPinMain
   };
 })();
