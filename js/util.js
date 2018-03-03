@@ -21,6 +21,8 @@
     fieldset: document.querySelectorAll('fieldset'),
     map: document.querySelector('.map'),
     template: document.querySelector('template'),
-    ENTER_CLICK: 13
+    form: document.querySelector('.notice__form'),
+    ENTER_CLICK: 13,
+    ESC_CLICK: 27
   };
 })();

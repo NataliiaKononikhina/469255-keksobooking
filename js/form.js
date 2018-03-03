@@ -37,6 +37,12 @@
     });
   };
 
+  var activateFieldset = function () {
+    window.util.fieldset.forEach(function (element) {
+      element.disabled = false;
+    });
+  };
+
   var addFormListeners = function () {
     appartmentType.addEventListener('change', function (evt) {
       var appartmentPrice = document.querySelector('#price');
@@ -69,6 +75,7 @@
   window.form = {
     appartmentRoomNumber: appartmentRoomNumber,
     enableCorrectOptions: enableCorrectOptions,
-    deactivateFieldset: deactivateFieldset
+    deactivateFieldset: deactivateFieldset,
+    activateFieldset: activateFieldset
   };
 })();

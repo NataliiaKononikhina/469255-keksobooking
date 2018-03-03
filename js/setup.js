@@ -1,21 +1,10 @@
 'use strict';
 
 (function () {
-  var form = document.querySelector('.notice__form');
-
-  var deactivate = function () {
-    window.form.deactivateFieldset();
-    window.util.map.classList.add('map--faded');
-    form.classList.add('notice__form--disabled');
-    window.card.closeMapCard();
-    window.pin.removePins();
-    window.card.removeMapCards();
-  };
-
   var successHandler = function (adverts) {
     window.initialAdvertArr = adverts.slice();
     window.card.advertArr = adverts.slice(0, 5);
-    window.pageActivation.addMapPinMainListeners();
+    window.pageState.addMapPinMainListeners();
   };
 
   var errorHandler = function (errorMessage) {
@@ -28,9 +17,9 @@
 
   window.backend.load(successHandler, errorHandler);
 
-  form.addEventListener('submit', function (evt) {
-    window.backend.upload(new FormData(form), function () {
-      deactivate();
+  window.util.form.addEventListener('submit', function (evt) {
+    window.backend.upload(new FormData(window.util.form), function () {
+      window.pageState.deactivate();
     });
     evt.preventDefault();
   });

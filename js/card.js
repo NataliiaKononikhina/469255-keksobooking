@@ -7,8 +7,6 @@
     house: 'Дом'
   };
 
-  var ESC_CLICK = 27;
-
   // Создание фрагмента с удобствами для отображения в карточке
   var renderMapFeatures = function (featuresArr) {
     var liFeatures = document.createElement('li');
@@ -111,7 +109,7 @@
 
   // Метод закрытия карточки
   var closeMapCard = function (evt) {
-    if (evt && evt.type !== 'click' && (evt.keyCode !== window.util.ENTER_CLICK) && (evt.keyCode !== ESC_CLICK)) {
+    if (evt && evt.type !== 'click' && (evt.keyCode !== window.util.ENTER_CLICK) && (evt.keyCode !== window.util.ESC_CLICK)) {
       return;
     }
 
