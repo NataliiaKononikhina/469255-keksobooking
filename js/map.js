@@ -10,27 +10,9 @@
   var address = document.querySelector('#address');
   var mapPinMain = window.util.map.querySelector('.map__pin--main');
 
-  var noticeForm = document.querySelector('.notice__form');
-
   // Добавление адреса в поле "Адрес"
   var setAddress = function (element) {
     address.value = element.offsetLeft + ', ' + (element.offsetTop + FROM_CENTER_TO_BOTTOM_PIN);
-  };
-
-  // Метод активации страницы
-  var activate = function (evt) {
-    if (evt.type !== 'mouseup' && !(evt.type === 'keydown' && evt.keyCode === window.util.ENTER_CLICK)) {
-      return;
-    }
-    window.util.map.classList.remove('map--faded');
-    noticeForm.classList.remove('notice__form--disabled');
-    window.form.toggleDisable(false);
-    window.pin.buildPinsFragment();
-    window.card.addMapPinsListeners();
-    setAddress(evt.currentTarget);
-    mapPinMain.removeEventListener('mouseup', activate);
-    window.form.enableCorrectOptions(window.form.appartmentRoomNumber.value);
-    window.card.getMapCards();
   };
 
   var checkCoords = function (newCoords) {
@@ -53,7 +35,7 @@
   };
 
   var addMapPinMainListeners = function () {
-    mapPinMain.addEventListener('keydown', activate);
+    mapPinMain.addEventListener('keydown', window.setup.activate);
     mapPinMain.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
 
@@ -93,22 +75,13 @@
 
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
-        mapPinMain.removeEventListener('mouseup', activate);
+        mapPinMain.removeEventListener('mouseup', window.setup.activate);
       };
 
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
-      mapPinMain.addEventListener('mouseup', activate);
+      mapPinMain.addEventListener('mouseup', window.setup.activate);
     });
-  };
-
-  var deactivate = function () {
-    window.form.toggleDisable(true);
-    window.util.map.classList.add('map--faded');
-    window.util.form.classList.add('notice__form--disabled');
-    window.card.closeMapCard();
-    window.pin.removePins();
-    window.card.removeMapCards();
   };
 
   var init = function () {
@@ -117,8 +90,9 @@
 
   init();
 
-  window.pageState = {
+  window.map = {
     addMapPinMainListeners: addMapPinMainListeners,
-    deactivate: deactivate
+    setAddress: setAddress,
+    mapPinMain: mapPinMain
   };
 })();
