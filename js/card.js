@@ -114,9 +114,10 @@
     }
 
     var shownMapCard = document.querySelector('.map__card:not(.hidden)');
-    var popupClose = shownMapCard.querySelector('.popup__close');
 
     if (shownMapCard) {
+      var popupClose = shownMapCard.querySelector('.popup__close');
+
       shownMapCard.classList.add('hidden');
       popupClose.removeEventListener('click', closeMapCard);
       popupClose.removeEventListener('keydown', closeMapCard);
