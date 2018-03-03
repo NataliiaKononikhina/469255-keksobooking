@@ -25,7 +25,7 @@
     window.util.map.classList.remove('map--faded');
     noticeForm.classList.remove('notice__form--disabled');
     window.util.fieldset.forEach(function (element) {
-      window.util.deactivate(element, false);
+      element.disabled = false;
     });
     window.pin.buildPinsFragment();
     window.card.addMapPinsListeners();

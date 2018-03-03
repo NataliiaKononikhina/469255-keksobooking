@@ -26,14 +26,14 @@
 
     appartmentCapacity.querySelector('[value="' + rooms[0] + '"]').selected = true;
     options.forEach(function (option) {
-      window.util.deactivate(option, !rooms.includes(option.value));
+      option.disabled = !rooms.includes(option.value);
     });
   };
 
   // Добавление атрибута disabled формам
   var deactivateFieldset = function () {
     window.util.fieldset.forEach(function (element) {
-      window.util.deactivate(element, true);
+      element.disabled = true;
     });
   };
 

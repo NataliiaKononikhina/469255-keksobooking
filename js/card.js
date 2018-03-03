@@ -111,7 +111,7 @@
 
   // Метод закрытия карточки
   var closeMapCard = function (evt) {
-    if (evt.type !== 'click' && (evt.keyCode !== window.util.ENTER_CLICK) && (evt.keyCode !== ESC_CLICK)) {
+    if (evt && evt.type !== 'click' && (evt.keyCode !== window.util.ENTER_CLICK) && (evt.keyCode !== ESC_CLICK)) {
       return;
     }
 
