@@ -7,7 +7,6 @@
     house: 5000,
     palace: 10000
   };
-  var MAX_PRICE = 1000000;
   var CAPACITY_ROOMS = {
     1: ['1'],
     2: ['1', '2'],
@@ -43,7 +42,6 @@
       var minPriceValue = MIN_PRICE[evt.currentTarget.value];
 
       appartmentPrice.min = minPriceValue;
-      appartmentPrice.max = MAX_PRICE;
       appartmentPrice.value = minPriceValue;
     });
 
