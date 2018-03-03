@@ -30,16 +30,9 @@
     });
   };
 
-  // Добавление атрибута disabled формам
-  var deactivateFieldset = function () {
+  var toggleDisable = function (value) {
     window.util.fieldset.forEach(function (element) {
-      element.disabled = true;
-    });
-  };
-
-  var activateFieldset = function () {
-    window.util.fieldset.forEach(function (element) {
-      element.disabled = false;
+      element.disabled = value;
     });
   };
 
@@ -66,7 +59,7 @@
   };
 
   var init = function () {
-    deactivateFieldset();
+    toggleDisable(true);
     addFormListeners();
   };
 
@@ -75,7 +68,6 @@
   window.form = {
     appartmentRoomNumber: appartmentRoomNumber,
     enableCorrectOptions: enableCorrectOptions,
-    deactivateFieldset: deactivateFieldset,
-    activateFieldset: activateFieldset
+    toggleDisable: toggleDisable
   };
 })();
