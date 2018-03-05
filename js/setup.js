@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var TIMEOUT_ERROR_MESSAGE = 3000;
+
   var noticeForm = document.querySelector('.notice__form');
 
   var successHandler = function (adverts) {
@@ -15,6 +17,9 @@
 
     node.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', node);
+    setTimeout(function () {
+      node.remove();
+    }, TIMEOUT_ERROR_MESSAGE);
   };
 
   var activate = function (evt) {
@@ -29,6 +34,7 @@
     window.map.mapPinMain.removeEventListener('mouseup', activate);
     window.form.enableCorrectOptions(window.form.appartmentRoomNumber.value);
     window.card.getMapCards();
+    window.form.setMinPrice();
   };
 
   var deactivate = function () {

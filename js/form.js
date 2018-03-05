@@ -37,6 +37,12 @@
     });
   };
 
+  var setMinPrice = function () {
+    var minPriceValue = MIN_PRICE[appartmentType.value];
+
+    appartmentPrice.min = minPriceValue;
+  };
+
   var addFormListeners = function () {
     appartmentType.addEventListener('change', function (evt) {
       var minPriceValue = MIN_PRICE[evt.currentTarget.value];
@@ -67,6 +73,7 @@
   window.form = {
     appartmentRoomNumber: appartmentRoomNumber,
     enableCorrectOptions: enableCorrectOptions,
-    toggleDisable: toggleDisable
+    toggleDisable: toggleDisable,
+    setMinPrice: setMinPrice
   };
 })();
