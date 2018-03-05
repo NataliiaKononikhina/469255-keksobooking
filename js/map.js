@@ -72,6 +72,10 @@
         upEvt.preventDefault();
 
         onMouseMove(upEvt);
+        if (window.util.map.classList.contains('map--faded')) {
+          window.setup.activate(upEvt);
+        }
+        setAddress(mapPinMain);
 
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
@@ -80,8 +84,12 @@
 
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
-      mapPinMain.addEventListener('mouseup', window.setup.activate);
     });
+  };
+
+  var setMapPinMainCoordinates = function () {
+    window.map.mapPinMain.style.left = '50%';
+    window.map.mapPinMain.style.top = '375px';
   };
 
   var init = function () {
@@ -93,6 +101,7 @@
   window.map = {
     addMapPinMainListeners: addMapPinMainListeners,
     setAddress: setAddress,
-    mapPinMain: mapPinMain
+    mapPinMain: mapPinMain,
+    setMapPinMainCoordinates: setMapPinMainCoordinates
   };
 })();

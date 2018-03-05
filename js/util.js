@@ -11,14 +11,9 @@
     lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
   };
 
-  var getRandomNumber = function (min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-
   window.util = {
     debounce: debounce,
-    getRandomNumber: getRandomNumber,
-    fieldset: document.querySelectorAll('fieldset'),
+    fieldsets: document.querySelectorAll('fieldset'),
     map: document.querySelector('.map'),
     template: document.querySelector('template'),
     form: document.querySelector('.notice__form'),

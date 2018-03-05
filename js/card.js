@@ -64,7 +64,7 @@
 
   // Создание все карточки, которые описывают жилье на основе темплейта
   var getMapCards = function () {
-    var adverts = window.card.advertArr;
+    var adverts = window.card.adverts;
     var filtersContainer = window.util.map.querySelector('.map__filters-container');
 
     var allAdverts = adverts.reduce(function (fragment, advert) {
@@ -138,7 +138,7 @@
     getMapCards: getMapCards,
     addMapPinsListeners: addMapPinsListeners,
     closeMapCard: closeMapCard,
-    advertArr: [],
+    adverts: [],
     removeMapCards: removeMapCards
   };
 })();

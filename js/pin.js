@@ -4,7 +4,7 @@
   var mapPins = window.util.map.querySelector('.map__pins');
   // Создание фрагмента с метоками квартир для карты города
   var getMapPins = function () {
-    var arr = window.card.advertArr;
+    var arr = window.card.adverts;
     var similarMapPin = window.util.template.content.querySelector('.map__pin');
 
     return arr.reduce(function (fragment, advert) {
@@ -34,7 +34,6 @@
 
   window.pin = {
     buildPinsFragment: buildPinsFragment,
-    getMapPins: getMapPins,
     removePins: removePins
   };
 })();

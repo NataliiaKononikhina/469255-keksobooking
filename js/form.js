@@ -18,10 +18,11 @@
   var appartmentRoomNumber = document.querySelector('#room_number');
   var appartmentTimein = document.querySelector('#timein');
   var appartmentTimeout = document.querySelector('#timeout');
+  var appartmentCapacity = document.querySelector('#capacity');
+  var options = appartmentCapacity.querySelectorAll('option');
+  var appartmentPrice = document.querySelector('#price');
 
   var enableCorrectOptions = function (value) {
-    var appartmentCapacity = document.querySelector('#capacity');
-    var options = appartmentCapacity.querySelectorAll('option');
     var rooms = CAPACITY_ROOMS[value];
 
     appartmentCapacity.querySelector('[value="' + rooms[0] + '"]').selected = true;
@@ -31,18 +32,16 @@
   };
 
   var toggleDisable = function (value) {
-    window.util.fieldset.forEach(function (element) {
+    window.util.fieldsets.forEach(function (element) {
       element.disabled = value;
     });
   };
 
   var addFormListeners = function () {
     appartmentType.addEventListener('change', function (evt) {
-      var appartmentPrice = document.querySelector('#price');
       var minPriceValue = MIN_PRICE[evt.currentTarget.value];
 
       appartmentPrice.min = minPriceValue;
-      appartmentPrice.value = minPriceValue;
     });
 
     appartmentTimein.addEventListener('change', function (evt) {

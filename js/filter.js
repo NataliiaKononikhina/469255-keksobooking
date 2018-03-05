@@ -21,13 +21,12 @@
     };
 
     var filteredAdvert = Object.keys(filtersMap).reduce(function (filteredArray, key) {
-      if (filtersMap[key].value === 'any') {
-        return filteredArray;
-      }
-      return filteredArray.filter(function (advert) {
-        return filtersMap[key].filter ? filtersMap[key].filter(advert, key) : filterByNumber(advert, key);
-      });
-    }, window.initialAdvertArr);
+      return filtersMap[key].value === 'any'
+        ? filteredArray
+        : filteredArray.filter(function (advert) {
+          return filtersMap[key].filter ? filtersMap[key].filter(advert, key) : filterByNumber(advert, key);
+        });
+    }, window.initialAdverts);
 
     checkedHousingFeatures.forEach(function (checkedFeature) {
       filteredAdvert = filteredAdvert.filter(function (advert) {
@@ -49,12 +48,12 @@
       price: {
         value: housingPrice.value,
         filter: function (advert, key) {
-          var Price = {
+          var price = {
             'low': advert.offer[key] < LOW_PRICE,
             'high': advert.offer[key] > HIGH_PRICE,
             'middle': advert.offer[key] > LOW_PRICE && advert.offer[key] < HIGH_PRICE
           };
-          return Price[filtersMap[key].value];
+          return price[filtersMap[key].value];
         }
       },
       rooms: {
@@ -65,7 +64,7 @@
       },
     };
 
-    window.card.advertArr = applyFilters(filtersMap);
+    window.card.adverts = applyFilters(filtersMap);
 
     window.pin.removePins();
     window.card.removeMapCards();
