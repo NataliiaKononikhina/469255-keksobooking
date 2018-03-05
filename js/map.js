@@ -6,6 +6,8 @@
   var FROM_CENTER_TO_BOTTOM_PIN = 45;
   var PIN_HEIGHT = 155;
   var PIN_OFFSET_X = 80;
+  var MAP_PIN_MAIN_LEFT = '50%';
+  var MAP_PIN_MAIN_TOP = '375px';
 
   var address = document.querySelector('#address');
   var mapPinMain = window.util.map.querySelector('.map__pin--main');
@@ -88,8 +90,8 @@
   };
 
   var setMapPinMainCoordinates = function () {
-    window.map.mapPinMain.style.left = '50%';
-    window.map.mapPinMain.style.top = '375px';
+    window.map.mapPinMain.style.left = MAP_PIN_MAIN_LEFT;
+    window.map.mapPinMain.style.top = MAP_PIN_MAIN_TOP;
   };
 
   var init = function () {
