@@ -37,7 +37,7 @@
   };
 
   var addMapPinMainListeners = function () {
-    mapPinMain.addEventListener('keydown', window.setup.activate);
+    mapPinMain.addEventListener('keydown', window.setup.onMapPinMainEnterPress);
     mapPinMain.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
 
@@ -75,13 +75,13 @@
 
         onMouseMove(upEvt);
         if (window.util.map.classList.contains('map--faded')) {
-          window.setup.activate(upEvt);
+          window.setup.activate();
         }
         setAddress(mapPinMain);
 
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
-        mapPinMain.removeEventListener('mouseup', window.setup.activate);
+        mapPinMain.removeEventListener('mouseup', window.setup.onMapPinMainMouseup);
       };
 
       document.addEventListener('mousemove', onMouseMove);

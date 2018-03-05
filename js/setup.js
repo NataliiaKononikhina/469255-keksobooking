@@ -22,16 +22,24 @@
     }, TIMEOUT_ERROR_MESSAGE);
   };
 
-  var activate = function (evt) {
-    if (evt.type !== 'mouseup' && !(evt.type === 'keydown' && evt.keyCode === window.util.ENTER_CLICK)) {
-      return;
+  var onMapPinMainMouseup = function () {
+    activate();
+  };
+
+  var onMapPinMainEnterPress = function (evt) {
+    if (evt.keyCode === window.util.ENTER_CLICK) {
+      activate();
     }
+  };
+
+  var activate = function () {
     window.util.map.classList.remove('map--faded');
     noticeForm.classList.remove('notice__form--disabled');
     window.form.toggleDisable(false);
     window.pin.buildPinsFragment();
     window.card.addMapPinsListeners();
-    window.map.mapPinMain.removeEventListener('mouseup', activate);
+    window.map.mapPinMain.removeEventListener('mouseup', onMapPinMainMouseup);
+    window.map.mapPinMain.removeEventListener('keydown', onMapPinMainEnterPress);
     window.form.enableCorrectOptions(window.form.appartmentRoomNumber.value);
     window.card.getMapCards();
     window.form.setMinPrice();
@@ -59,6 +67,8 @@
   });
 
   window.setup = {
-    activate: activate
+    activate: activate,
+    onMapPinMainMouseup: onMapPinMainMouseup,
+    onMapPinMainEnterPress: onMapPinMainEnterPress
   };
 })();

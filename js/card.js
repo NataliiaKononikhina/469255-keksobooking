@@ -81,10 +81,9 @@
 
     mapPins.forEach(function (mapPin) {
       mapPin.addEventListener('click', function (evt) {
-        if (evt.currentTarget.className.indexOf('map__pin--main') !== -1) {
-          return;
-        }
-        openMapCard(evt.currentTarget.querySelector('img').src);
+        var isNotMapPinMain = evt.currentTarget.className.indexOf('map__pin--main') === -1;
+
+        return isNotMapPinMain && openMapCard(evt.currentTarget.querySelector('img').src);
       });
     });
   };
@@ -95,35 +94,48 @@
     var popupClose;
 
     allCards.forEach(function (card) {
-      card.classList.add('hidden');
       if (card.querySelector('.popup__avatar').src === src) {
         card.classList.remove('hidden');
         popupClose = card.querySelector('.popup__close');
+
+        document.addEventListener('keydown', onDocumentEscPress);
+        popupClose.addEventListener('click', onPopupCloseClick);
+        popupClose.addEventListener('keydown', onPopupCloseEnterPress);
+      } else {
+        card.classList.add('hidden');
       }
     });
+  };
 
-    document.addEventListener('keydown', closeMapCard);
-    popupClose.addEventListener('click', closeMapCard);
-    popupClose.addEventListener('keydown', closeMapCard);
+  var onPopupCloseClick = function () {
+    closeMapCard();
+  };
+
+  var onDocumentEscPress = function (evt) {
+    if (evt.keyCode === window.util.ESC_CLICK) {
+      closeMapCard();
+    }
+  };
+
+  var onPopupCloseEnterPress = function (evt) {
+    if (evt.keyCode === window.util.ENTER_CLICK) {
+      closeMapCard();
+    }
   };
 
   // Метод закрытия карточки
-  var closeMapCard = function (evt) {
-    if (evt && evt.type !== 'click' && (evt.keyCode !== window.util.ENTER_CLICK) && (evt.keyCode !== window.util.ESC_CLICK)) {
-      return;
-    }
-
+  var closeMapCard = function () {
     var shownMapCard = document.querySelector('.map__card:not(.hidden)');
 
     if (shownMapCard) {
       var popupClose = shownMapCard.querySelector('.popup__close');
 
       shownMapCard.classList.add('hidden');
-      popupClose.removeEventListener('click', closeMapCard);
-      popupClose.removeEventListener('keydown', closeMapCard);
+      popupClose.removeEventListener('click', onPopupCloseClick);
+      popupClose.removeEventListener('keydown', onPopupCloseEnterPress);
     }
 
-    document.removeEventListener('keydown', closeMapCard);
+    document.removeEventListener('keydown', onDocumentEscPress);
   };
 
   var removeMapCards = function () {
