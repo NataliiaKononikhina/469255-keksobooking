@@ -2,7 +2,7 @@
 
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-  var PHOTO_PREVIEW_WIDTH = '200%';
+  var PHOTO_PREVIEW_WIDTH = '100%';
 
   var avatarFileChooser = document.querySelector('#avatar');
   var avatarPreview = document.querySelector('.notice__preview img');
