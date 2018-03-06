@@ -42,7 +42,7 @@
     window.map.mapPinMain.removeEventListener('keydown', onMapPinMainEnterPress);
     window.form.enableCorrectOptions(window.form.appartmentRoomNumber.value);
     window.card.getMapCards();
-    window.form.setMinPrice();
+    window.form.setMinPrice(window.form.appartmentType.value);
   };
 
   var deactivate = function () {
