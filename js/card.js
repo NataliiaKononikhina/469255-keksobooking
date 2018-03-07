@@ -81,9 +81,9 @@
 
     mapPins.forEach(function (mapPin) {
       mapPin.addEventListener('click', function (evt) {
-        var isNotMapPinMain = evt.currentTarget.className.indexOf('map__pin--main') === -1;
-
-        return isNotMapPinMain && openMapCard(evt.currentTarget.querySelector('img').src);
+        if (evt.currentTarget.className.indexOf('map__pin--main') === -1) {
+          openMapCard(evt.currentTarget.querySelector('img').src);
+        }
       });
     });
   };

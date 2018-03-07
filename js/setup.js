@@ -4,6 +4,7 @@
   var TIMEOUT_ERROR_MESSAGE = 3000;
 
   var noticeForm = document.querySelector('.notice__form');
+  var formReset = document.querySelector('.form__reset');
 
   var successHandler = function (adverts) {
     window.initialAdverts = adverts.slice();
@@ -65,6 +66,19 @@
     }, errorHandler);
     evt.preventDefault();
   });
+
+  var onFormResetClick = function () {
+    deactivate();
+  };
+
+  var onFormResetEnterPress = function (evt) {
+    if (evt.keyCode === window.util.ENTER_CLICK) {
+      deactivate();
+    }
+  };
+
+  formReset.addEventListener('keydown', onFormResetEnterPress);
+  formReset.addEventListener('click', onFormResetClick);
 
   window.setup = {
     activate: activate,
